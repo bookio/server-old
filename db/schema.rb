@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20120924080813) do
     t.integer  "rental_id"
     t.integer  "customer_id"
     t.integer  "user_id"
-    t.datetime "start_at"
+    t.datetime "begin_at"
     t.datetime "end_at"
     t.integer  "state"
     t.datetime "created_at",  :null => false
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20120924080813) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "sessions", ["sid"], :name => "index_sessions_on_sid"
   add_index "sessions", ["user_id"], :name => "index_sessions_on_user_id"
 
   create_table "users", :force => true do |t|
