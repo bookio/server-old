@@ -1,0 +1,12 @@
+<h1>Home#index</h1>
+<p>match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
+match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
+match "/rentals/:id" => "rentals#show", :via => :get, :defaults => { :format => 'json' }, :as => :rental
+match "/rentals/:id" => "rentals#destroy", :via => :delete, :defaults => { :format => 'json' }
+
+match "/customers" => "customers#index", :via => :get, :defaults => { :format => 'json' }
+match "/customers" => "customers#create", :via => :post, :defaults => { :format => 'json' }
+match "/customers/:id" => "customers#show", :via => :get, :defaults => { :format => 'json' }, :as => :customer
+match "/customers/:id" => "customers#destroy", :via => :delete, :defaults => { :format => 'json' }
+
+</p>
