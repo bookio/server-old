@@ -1,16 +1,16 @@
 class Reservation < ActiveRecord::Base
-  attr_accessible :customer, :end_at, :rental, :start_at, :state, :user
+  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :user
   
   validates :customer_id, :user_id, :rental_id, :presence => true
 
   validate :validate_dates, :validate_state
 
   def validate_dates
-    if start_at == nil or start_at.blank?
-      errors.add(:start_at, "must be specified")
+    if begin_at == nil or begin_at.blank?
+      errors.add(:begin_at, "must be specified")
     elsif end_at == nil or end_at.blank?
         errors.add(:end_at, "must be specified")
-    elsif start_at >= end_at
+    elsif begin_at >= end_at
        errors.add(:start_at, " must be before end_at")
     end
   end
