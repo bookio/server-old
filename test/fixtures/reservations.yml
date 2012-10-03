@@ -4,7 +4,7 @@ one:
   rental: 
   customer: 
   user: 
-  start_at: 2012-09-24 10:08:13
+  begin_at: 2012-09-24 10:08:13
   end_at: 2012-09-24 10:08:13
   state: 1
 
@@ -12,6 +12,6 @@ two:
   rental: 
   customer: 
   user: 
-  start_at: 2012-09-24 10:08:13
+  begin_at: 2012-09-24 10:08:13
   end_at: 2012-09-24 10:08:13
   state: 1

@@ -1,14 +1,13 @@
 class ReservationsController < ApplicationController
   
   def index
-    json = 
-    render :json => Reservation.all
+    json =  render :json => Reservation.all
 #    render :json => Reservation.all.to_json(:methods => :kalle)
   end
   
 
   def show
-  begin
+    begin
       reservation = Reservation.find(params[:id])
       
       render :json => reservation
@@ -18,8 +17,7 @@ class ReservationsController < ApplicationController
   end
 
   def create
-      puts params.to_s
-
+    begin
       user = authenticate
       
       @reservation = Reservation.new(params[:reservation])
@@ -32,6 +30,9 @@ class ReservationsController < ApplicationController
       else
         render :json => @reservation.errors, :status => :unprocessable_entity
       end
+    rescue ActiveRecord::RecordNotFound
+      error "Customer ID or rental ID was not found.", :not_found
+    end
   end
 
   def destroy

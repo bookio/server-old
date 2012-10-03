@@ -11,7 +11,7 @@ class Reservation < ActiveRecord::Base
     elsif end_at == nil or end_at.blank?
         errors.add(:end_at, "must be specified")
     elsif begin_at >= end_at
-       errors.add(:start_at, " must be before end_at")
+       errors.add(:begin_at, " must be before end_at")
     end
   end
   

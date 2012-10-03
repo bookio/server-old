@@ -12,10 +12,20 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: booker
+  database: d178pmafao3ec7
   pool: 5
-  username: postgres
-  password: potatismos
+  username: xpmxiyipcbxoqk
+  password: pVr2Eh1pdXeAulWQptBtJt5uzc
+  host: ec2-54-243-223-245.compute-1.amazonaws.com
+  port: 5552
+
+#development:
+#  adapter: postgresql
+#  encoding: unicode
+#  database: booker
+#  pool: 5
+#  username: postgres
+#  password: potatismos
 
 test:
   adapter: postgresql
