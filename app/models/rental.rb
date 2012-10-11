@@ -3,4 +3,14 @@ class Rental < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations
 
+  def url 
+  	"rentals/" + self.id.to_s
+  end
+
+  def as_json(options={})
+#    super(:include => { :user => { :only => :email }}, :methods => [:foo, :bar])
+    super(:methods => [:url])
+  end
+
+ 
 end
