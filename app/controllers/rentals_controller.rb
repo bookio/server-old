@@ -17,11 +17,26 @@ class RentalsController < ApplicationController
 
   def create
     @rental = Rental.new(params[:rental])
-    puts :rental
+
     if @rental.save
       render :json => @rental, :status => :created, :location => @rental
     else
       render :json => @rental.errors, :status => :unprocessable_entity
+    end
+  end
+  
+  def update
+	begin
+		@rental = Rental.find(params[:id])
+	
+	    if @rental.update_attributes(params[:rental])
+			render :json => @rental
+	    else
+	        render :json => @book.errors, :status => :unprocessable_entity
+	    end
+	    
+    rescue ActiveRecord::RecordNotFound
+    	error "Rental with ID #{params[:id]} not found.", :not_found
     end
   end
   
@@ -34,4 +49,5 @@ class RentalsController < ApplicationController
       error "Rental with ID #{params[:id]} not found.", :not_found
     end
   end
+
 end
