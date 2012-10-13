@@ -51,7 +51,7 @@ class ReservationsController < ApplicationController
 	begin
 		@reservation = Reservation.find(params[:id])
 	
-	    if @reservation.update_attributes(params[:rental])
+	    if @reservation.update_attributes(params[:reservation])
 			render :json => @reservation
 	    else
 	        render :json => @reservation.errors, :status => :unprocessable_entity
