@@ -5,6 +5,9 @@ class Reservation < ActiveRecord::Base
 
   validate :validate_dates, :validate_state
 
+
+  scope :last_week, lambda { where("created_at > ?", Time.zone.now -  7*(60 * 60 * 24) ) }
+
   def validate_dates
     if begin_at == nil or begin_at.blank?
       errors.add(:begin_at, "must be specified")
@@ -41,10 +44,10 @@ class Reservation < ActiveRecord::Base
   	self.rental.name
   end
   
-  def as_json(options={})
+#  def as_json(options={})
 #    super(:include => { :user => { :only => :email }}, :methods => [:foo, :bar])
-    super(:methods => [:customer_name, :user_email, :rental_name])
-  end
+#    super(:methods => [:customer_name, :user_email, :rental_name])
+#  end
 
  
   belongs_to :rental

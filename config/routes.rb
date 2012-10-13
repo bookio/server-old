@@ -5,6 +5,8 @@ Booker::Application.routes.draw do
  # get "users/new"
 
   #resource :rental
+
+  match "/foo" => "home#index", :via => :get, :defaults => { :format => 'json' }
   
   match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
   match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
@@ -33,6 +35,7 @@ Booker::Application.routes.draw do
 
   match "/reservations" => "reservations#index", :via => :get, :defaults => { :format => 'json' }
   match "/reservations" => "reservations#create", :via => :post, :defaults => { :format => 'json' }
+  match "/reservations/list" => "reservations#list", :via => :get, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#show", :via => :get, :defaults => { :format => 'json' }, :as => :reservation
   match "/reservations/:id" => "reservations#destroy", :via => :delete, :defaults => { :format => 'json' }
 

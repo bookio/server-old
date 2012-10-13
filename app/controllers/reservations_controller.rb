@@ -4,15 +4,25 @@ class ReservationsController < ApplicationController
     json =  render :json => Reservation.all
 #    render :json => Reservation.all.to_json(:methods => :kalle)
   end
-  
+
+  def list
+    begin
+	    reservations = Reservation.joins(:user, :rental).select(['rentals.name', 'rentals.image', 'reservations.id', 'users.email', 'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
+	    render :json => reservations
+	    
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end  
 
   def show
     begin
       reservation = Reservation.find(params[:id])
       
       render :json => reservation
-    rescue ActiveRecord::RecordNotFound
-      error "Reservation with ID #{params[:id]} not found.", :not_found
+    
+    rescue Exception => exception
+      error exception.message, :not_found
     end
   end
 
@@ -30,8 +40,8 @@ class ReservationsController < ApplicationController
       else
         render :json => @reservation.errors, :status => :unprocessable_entity
       end
-    rescue ActiveRecord::RecordNotFound
-      error "Customer ID or rental ID was not found.", :not_found
+    rescue Exception => exception
+      error exception.message, :not_found
     end
   end
 
@@ -40,8 +50,8 @@ class ReservationsController < ApplicationController
       @customer = Reservation.find(params[:id])
       @customer.destroy
       head :no_content
-    rescue ActiveRecord::RecordNotFound
-      error "Reservation with ID #{params[:id]} not found.", :not_found
+    rescue Exception => exception
+      error exception.message, :not_found
     end
   end
 end
