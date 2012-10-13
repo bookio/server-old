@@ -39,7 +39,24 @@ class ReservationsController < ApplicationController
         render :json => @reservation, :status => :created, :location => @reservation
       else
         render :json => @reservation.errors, :status => :unprocessable_entity
+        puts @reservation.errors
       end
+    rescue Exception => exception
+      puts exception.message
+      error exception.message, :not_found
+    end
+  end
+  
+  def update
+	begin
+		@reservation = Reservation.find(params[:id])
+	
+	    if @reservation.update_attributes(params[:rental])
+			render :json => @reservation
+	    else
+	        render :json => @reservation.errors, :status => :unprocessable_entity
+	    end
+	    
     rescue Exception => exception
       error exception.message, :not_found
     end

@@ -7,11 +7,11 @@ class RentalsController < ApplicationController
   end
   
   def show
-  begin
+  	begin
       @rental = Rental.find(params[:id])
       render :json => @rental
-    rescue ActiveRecord::RecordNotFound
-      error "Rental with ID #{params[:id]} not found.", :not_found
+    rescue Exception => exception
+      error exception.message, :not_found
     end
   end
 
@@ -32,11 +32,11 @@ class RentalsController < ApplicationController
 	    if @rental.update_attributes(params[:rental])
 			render :json => @rental
 	    else
-	        render :json => @book.errors, :status => :unprocessable_entity
+	        render :json => @rental, :status => :unprocessable_entity
 	    end
 	    
-    rescue ActiveRecord::RecordNotFound
-    	error "Rental with ID #{params[:id]} not found.", :not_found
+    rescue Exception => exception
+      error exception.message, :not_found
     end
   end
   
@@ -45,8 +45,8 @@ class RentalsController < ApplicationController
       @rental = Rental.find(params[:id])
       @rental.destroy
       head :no_content
-    rescue ActiveRecord::RecordNotFound
-      error "Rental with ID #{params[:id]} not found.", :not_found
+    rescue Exception => exception
+      error exception.message, :not_found
     end
   end
 
