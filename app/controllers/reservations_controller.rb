@@ -1,13 +1,21 @@
 class ReservationsController < ApplicationController
   
   def index
-    json =  render :json => Reservation.all
+    begin
+	    json =  render :json => Reservation.all
 #    render :json => Reservation.all.to_json(:methods => :kalle)
+    rescue Exception => exception
+    	error exception.message, :not_found
+    end
   end
 
   def list
     begin
-	    reservations = Reservation.joins(:user, :rental).select(['rentals.name', 'rentals.image', 'reservations.id', 'users.email', 'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
+	    reservations = Reservation.joins(:user, :rental, :customer).select(['rentals.name', 
+	    	'rentals.image', 'rentals.id AS rental_id', 
+	    	'reservations.id AS reservation_id', 
+	    	'customers.id AS customer_id',
+	    	'users.email', 'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
 	    render :json => reservations
 	    
     rescue Exception => exception
