@@ -2,13 +2,13 @@ class CustomersController < ApplicationController
   
   def index
     @customers = Customer.all
-    render :json => @customers
+    render :json => @customers, :callback => params[:callback]
   end
   
   def show
   begin
       @customer = Customer.find(params[:id])
-      render :json => @customer
+      render :json => @customer, :callback => params[:callback]
     rescue ActiveRecord::RecordNotFound
       error "Customer with ID #{params[:id]} not found.", :not_found
     end
@@ -17,7 +17,7 @@ class CustomersController < ApplicationController
   def search
   begin
       customers = Customer.where("lower(name) LIKE ?", "%#{params[:search_text].downcase}%")
-      render :json => customers
+      render :json => customers, :callback => params[:callback]
     rescue ActiveRecord::RecordNotFound
       error "Customer matching #{params[:search_text]} not found.", :not_found
     end
