@@ -59,13 +59,13 @@ module Booker
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     
-    
-	  config.middleware.use Rack::Cors do
-	    allow do
-	      origins '*'
-	      resource '*', :headers => :any, :methods => [:get, :post, :options, :put]
-	    end
+    # allow access from everywhere https://github.com/cyu/rack-cors
+	config.middleware.use Rack::Cors do
+	  allow do
+	    origins '*'
+	    resource '*', :headers => :any, :methods => [:get, :post, :options, :put, :delete]
 	  end
+	end
     
   end
 end
