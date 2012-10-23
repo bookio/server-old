@@ -8,52 +8,52 @@ class ApplicationController < ActionController::Base
     render :json => {:error => msg}, :status => status
   end
   
-  def generate_sid
-    rand(36**32).to_s(36) 
-  end
-  
-  def current_session
-    Session.find_by_sid(request.headers["Authorization"])
-  end
-  
-  def verify_sid
-    session = current_session
-    
-    if session == nil
-      error "Invalid session ID", :not_found
-    else
-      yield
-    end
-  end
   
   def base64Decode(str)
     str += '=' * (4 - str.length.modulo(4))
     Base64.decode64(str.tr('-_','+/'))
   end
+
+  def current_session
+    sid = request.headers["Authorization"]
+    
+    if sid == nil 
+      raise "Must supply a session ID." 
+    end
+    
+    session = Session.find_by_sid(sid)
+    
+    if session == nil 
+      raise "Invalid session ID." 
+    end
+    
+    session
+  end
+  
   
   def authenticate
     authorization = request.headers["Authorization"].split(' ')[1]
     
     if (authorization == nil) 
-      nil
-      return
+      raise "Must supply authorization"
     end
     
     emailAndPassword = base64Decode(authorization)
     email = emailAndPassword.split(':')[0]
     password = emailAndPassword.split(':')[1]
+    user = nil 
     
     if email == nil || password == nil
-      nil
-    else
-      user = User.find_by_email(email)
-
-      if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-        user
-      else
-        nil
-      end
+      raise "Must supply e-mail and password"
     end
+    
+    user = User.find_by_email(email)
+
+    if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+      raise "Invalid email or password"
+    end
+    
+    user
   end
   
   helper_method :current_user

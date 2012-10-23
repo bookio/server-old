@@ -25,7 +25,6 @@ Booker::Application.routes.draw do
   match "/users/:id" => "users#show", :via => :get, :defaults => { :format => 'json' }, :as => :user
   match "/users/:id" => "users#destroy", :via => :delete, :defaults => { :format => 'json' }
 
-  match "/sessions" => "sessions#create", :via => :post, :defaults => { :format => 'json' }
   match "/sessions/:id" => "sessions#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/sessions" => "sessions#index", :via => :get, :defaults => { :format => 'json' }
   match "/sessions/:id" => "sessions#show", :via => :get, :defaults => { :format => 'json' }, :as => :session

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email
 
-  has_many :sessions, :dependent => :destroy
+  has_one :session, :dependent => :destroy
   
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations

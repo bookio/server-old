@@ -2,8 +2,8 @@ class ReservationsController < ApplicationController
   
   def index
     begin
-	    json =  render :json => Reservation.all
-#    render :json => Reservation.all.to_json(:methods => :kalle)
+      current_session
+      json =  render :json => Reservation.all
     rescue Exception => exception
     	error exception.message, :not_found
     end
@@ -11,12 +11,13 @@ class ReservationsController < ApplicationController
 
   def list
     begin
-	    reservations = Reservation.joins(:user, :rental, :customer).select(['rentals.name', 
+      current_session
+      reservations = Reservation.joins(:user, :rental, :customer).select(['rentals.name', 
 	    	'rentals.image', 'rentals.id AS rental_id', 
 	    	'reservations.id AS reservation_id', 
 	    	'customers.id AS customer_id',
 	    	'users.email', 'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
-	    render :json => reservations
+      render :json => reservations
 	    
     rescue Exception => exception
       error exception.message, :not_found
@@ -25,6 +26,8 @@ class ReservationsController < ApplicationController
 
   def show
     begin
+      current_session
+      
       reservation = Reservation.find(params[:id])
       
       render :json => reservation
@@ -36,7 +39,7 @@ class ReservationsController < ApplicationController
 
   def create
     begin
-      user = authenticate
+      user = current_session.user
       
       @reservation = Reservation.new(params[:reservation])
       @reservation.customer = Customer.find(params[:customer_id])
@@ -57,13 +60,14 @@ class ReservationsController < ApplicationController
   
   def update
 	begin
-		@reservation = Reservation.find(params[:id])
+      current_session
+      @reservation = Reservation.find(params[:id])
 	
-	    if @reservation.update_attributes(params[:reservation])
-			render :json => @reservation
-	    else
-	        render :json => @reservation.errors, :status => :unprocessable_entity
-	    end
+      if @reservation.update_attributes(params[:reservation])
+		render :json => @reservation
+      else
+        render :json => @reservation.errors, :status => :unprocessable_entity
+      end
 	    
     rescue Exception => exception
       error exception.message, :not_found
@@ -72,9 +76,12 @@ class ReservationsController < ApplicationController
 
   def destroy
     begin
+      current_session
+
       @customer = Reservation.find(params[:id])
       @customer.destroy
       head :no_content
+
     rescue Exception => exception
       error exception.message, :not_found
     end

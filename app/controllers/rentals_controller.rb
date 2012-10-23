@@ -2,12 +2,21 @@ class RentalsController < ApplicationController
 
 
   def index
-    @rentals = Rental.all
-    render :json => @rentals
+    begin
+      session = current_session
+      
+      @rentals = Rental.all
+      render :json => @rentals
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+
   end
   
   def show
   	begin
+      session = current_session
+
       @rental = Rental.find(params[:id])
       render :json => @rental
     rescue Exception => exception
@@ -16,24 +25,32 @@ class RentalsController < ApplicationController
   end
 
   def create
-    @rental = Rental.new(params[:rental])
+    begin
+      session = current_session
 
-    if @rental.save
-      render :json => @rental, :status => :created, :location => @rental
-    else
-      render :json => @rental.errors, :status => :unprocessable_entity
+      @rental = Rental.new(params[:rental])
+
+      if @rental.save
+        render :json => @rental, :status => :created, :location => @rental
+      else
+        render :json => @rental.errors, :status => :unprocessable_entity
+      end
+    rescue Exception => exception
+      error exception.message, :not_found
     end
+
   end
   
   def update
 	begin
-		@rental = Rental.find(params[:id])
+      session = current_session
+      @rental = Rental.find(params[:id])
 	
-	    if @rental.update_attributes(params[:rental])
-			render :json => @rental
-	    else
-	        render :json => @rental, :status => :unprocessable_entity
-	    end
+      if @rental.update_attributes(params[:rental])
+  		render :json => @rental
+      else
+        render :json => @rental, :status => :unprocessable_entity
+      end
 	    
     rescue Exception => exception
       error exception.message, :not_found
@@ -42,6 +59,8 @@ class RentalsController < ApplicationController
   
   def destroy
     begin
+      session = current_session
+
       @rental = Rental.find(params[:id])
       @rental.destroy
       head :no_content
