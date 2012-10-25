@@ -20,6 +20,14 @@ class SessionsController < ApplicationController
     end
   end
   
+  def verify
+    begin
+      session = current_session
+      render :json => {:sid => session.sid}
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
   
   def login
     begin
