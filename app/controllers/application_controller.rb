@@ -32,10 +32,16 @@ class ApplicationController < ActionController::Base
   
   
   def authenticate
-    authorization = request.headers["Authorization"].split(' ')[1]
+    authorization = request.headers["Authorization"]
+    
+    if authorization == nil 
+      raise "There is no authorization specified in the http header."
+    end
+    
+    authorization = authorization.split(' ')[1]
     
     if (authorization == nil) 
-      raise "Must supply authorization"
+      raise "There is no authorization specified in the http header."
     end
     
     emailAndPassword = base64Decode(authorization)
@@ -43,14 +49,18 @@ class ApplicationController < ActionController::Base
     password = emailAndPassword.split(':')[1]
     user = nil 
     
-    if email == nil || password == nil
-      raise "Must supply e-mail and password"
+    if email == nil
+        raise "An e-mail address must be specified."
+    end
+    
+    if password == nil
+      raise "You must specify a password."
     end
     
     user = User.find_by_email(email)
 
     if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-      raise "Invalid email or password"
+      raise "Invalid e-mail address or password."
     end
     
     user
