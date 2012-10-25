@@ -31,6 +31,7 @@ Booker::Application.routes.draw do
   
   match "/login" => "sessions#login", :via => :get, :defaults => { :format => 'json' }
   match "/logout" => "sessions#logout", :via => :get, :defaults => { :format => 'json' }
+  match "/verify" => "sessions#verify", :via => :get, :defaults => { :format => 'json' }
 
   match "/reservations" => "reservations#index", :via => :get, :defaults => { :format => 'json' }
   match "/reservations" => "reservations#create", :via => :post, :defaults => { :format => 'json' }
