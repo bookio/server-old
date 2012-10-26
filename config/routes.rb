@@ -18,6 +18,7 @@ Booker::Application.routes.draw do
   match "/customers" => "customers#create", :via => :post, :defaults => { :format => 'json' }
   match "/customers/:id" => "customers#show", :via => :get, :defaults => { :format => 'json' }, :as => :customer
   match "/customers/:id" => "customers#destroy", :via => :delete, :defaults => { :format => 'json' }
+  match "/customers/:id" => "customers#update", :via => :put, :defaults => { :format => 'json' }
   match "/customers/search/:search_text" => "customers#search", :via => :get, :defaults => { :format => 'json' }
 
   match "/users" => "users#index", :via => :get, :defaults => { :format => 'json' }

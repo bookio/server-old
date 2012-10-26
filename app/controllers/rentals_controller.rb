@@ -5,8 +5,8 @@ class RentalsController < ApplicationController
     begin
       session = current_session
       
-      @rentals = Rental.all
-      render :json => @rentals
+      rentals = session.user.rentals.all
+      render :json => rentals
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -17,8 +17,8 @@ class RentalsController < ApplicationController
   	begin
       session = current_session
 
-      @rental = Rental.find(params[:id])
-      render :json => @rental
+      rental = session.user.rentals.find(params[:id])
+      render :json => rental
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -27,13 +27,12 @@ class RentalsController < ApplicationController
   def create
     begin
       session = current_session
+      rental = session.user.rentals.new(params[:rental])
 
-      @rental = Rental.new(params[:rental])
-
-      if @rental.save
-        render :json => @rental, :status => :created, :location => @rental
+      if rental.save
+        render :json => rental, :status => :created, :location => rental
       else
-        render :json => @rental.errors, :status => :unprocessable_entity
+        render :json => rental.errors, :status => :unprocessable_entity
       end
     rescue Exception => exception
       error exception.message, :not_found
@@ -44,12 +43,12 @@ class RentalsController < ApplicationController
   def update
 	begin
       session = current_session
-      @rental = Rental.find(params[:id])
+      rental = session.user.rentals.find(params[:id])
 	
-      if @rental.update_attributes(params[:rental])
-  		render :json => @rental
+      if rental.update_attributes(params[:rental])
+  		render :json => rental
       else
-        render :json => @rental, :status => :unprocessable_entity
+        render :json => rental, :status => :unprocessable_entity
       end
 	    
     rescue Exception => exception
@@ -61,8 +60,9 @@ class RentalsController < ApplicationController
     begin
       session = current_session
 
-      @rental = Rental.find(params[:id])
-      @rental.destroy
+      rental = session.user.rentals.find(params[:id])
+      rental.destroy
+      
       head :no_content
     rescue Exception => exception
       error exception.message, :not_found

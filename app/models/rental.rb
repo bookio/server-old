@@ -2,6 +2,7 @@ class Rental < ActiveRecord::Base
   attr_accessible :description, :name, :image
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations
+  belongs_to :user
 
   def url 
   	"rentals/" + self.id.to_s

@@ -14,6 +14,13 @@ class User < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations
   
+  has_many :rentals, :dependent => :destroy
+  validates_associated :rentals
+
+  has_many :customers, :dependent => :destroy
+  validates_associated :customers
+  
+  
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt
