@@ -2,8 +2,8 @@ class ReservationsController < ApplicationController
   
   def index
     begin
-      current_session
-      json =  render :json => Reservation.all
+      session = current_session
+      json =  render :json => session.user.reservations.all
     rescue Exception => exception
     	error exception.message, :not_found
     end
@@ -11,8 +11,8 @@ class ReservationsController < ApplicationController
 
   def list
     begin
-      current_session
-      reservations = Reservation.joins(:user, :rental, :customer).select(['rentals.name', 
+      session = current_session
+      reservations = session.user.reservation.joins(:user, :rental, :customer).select(['rentals.name', 
 	    	'rentals.image', 'rentals.id AS rental_id', 
 	    	'reservations.id AS reservation_id', 
 	    	'customers.id AS customer_id',
@@ -26,9 +26,8 @@ class ReservationsController < ApplicationController
 
   def show
     begin
-      current_session
-      
-      reservation = Reservation.find(params[:id])
+      session = current_session
+      reservation = session.user.reservations.find(params[:id])
       
       render :json => reservation
     
@@ -41,16 +40,14 @@ class ReservationsController < ApplicationController
     begin
       user = current_session.user
       
-      @reservation = Reservation.new(params[:reservation])
-      @reservation.customer = Customer.find(params[:customer_id])
-      @reservation.user = user
-      @reservation.rental = Rental.find(params[:rental_id])
+      reservation = session.user.reservations.new(params[:reservation])
+      reservation.customer = session.user.customers.find(params[:customer_id])
+      reservation.rental = session.user.rentals.find(params[:rental_id])
       
-      if @reservation.save
-        render :json => @reservation, :status => :created, :location => @reservation
+      if reservation.save
+        render :json => reservation, :status => :created, :location => reservation
       else
-        render :json => @reservation.errors, :status => :unprocessable_entity
-        puts @reservation.errors
+        render :json => reservation.errors, :status => :unprocessable_entity
       end
     rescue Exception => exception
       puts exception.message
@@ -60,13 +57,13 @@ class ReservationsController < ApplicationController
   
   def update
 	begin
-      current_session
-      @reservation = Reservation.find(params[:id])
+      session = current_session
+      reservation = session.user.reservations.find(params[:id])
 	
-      if @reservation.update_attributes(params[:reservation])
-		render :json => @reservation
+      if reservation.update_attributes(params[:reservation])
+		render :json => reservation
       else
-        render :json => @reservation.errors, :status => :unprocessable_entity
+        render :json => reservation.errors, :status => :unprocessable_entity
       end
 	    
     rescue Exception => exception
@@ -76,10 +73,10 @@ class ReservationsController < ApplicationController
 
   def destroy
     begin
-      current_session
+      session = current_session
 
-      @customer = Reservation.find(params[:id])
-      @customer.destroy
+      customer = session.user.reservations.find(params[:id])
+      customer.destroy
       head :no_content
 
     rescue Exception => exception
