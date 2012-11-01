@@ -19,6 +19,9 @@ class User < ActiveRecord::Base
 
   has_many :customers, :dependent => :destroy
   validates_associated :customers
+
+  has_many :scenes, :dependent => :destroy
+  validates_associated :scenes
   
   
   def encrypt_password

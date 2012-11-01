@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121026093706) do
+ActiveRecord::Schema.define(:version => 20121101110831) do
 
   create_table "customers", :force => true do |t|
     t.text     "name"
@@ -38,6 +38,16 @@ ActiveRecord::Schema.define(:version => 20121026093706) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "scenes", :force => true do |t|
+    t.string   "name"
+    t.binary   "content"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "scenes", ["user_id"], :name => "index_scenes_on_user_id"
 
   create_table "sessions", :force => true do |t|
     t.integer  "user_id"

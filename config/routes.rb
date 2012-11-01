@@ -14,6 +14,12 @@ Booker::Application.routes.draw do
   match "/rentals/:id" => "rentals#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/rentals/:id" => "rentals#update", :via => :put, :defaults => { :format => 'json' }
 
+  match "/scenes" => "scenes#index", :via => :get, :defaults => { :format => 'json' }
+  match "/scenes" => "scenes#create", :via => :post, :defaults => { :format => 'json' }
+  match "/scenes/:id" => "scenes#show", :via => :get, :defaults => { :format => 'json' }, :as => :scene
+  match "/scenes/:id" => "scenes#destroy", :via => :delete, :defaults => { :format => 'json' }
+  match "/scenes/:id" => "scenes#update", :via => :put, :defaults => { :format => 'json' }
+
   match "/customers" => "customers#index", :via => :get, :defaults => { :format => 'json' }
   match "/customers" => "customers#create", :via => :post, :defaults => { :format => 'json' }
   match "/customers/:id" => "customers#show", :via => :get, :defaults => { :format => 'json' }, :as => :customer
