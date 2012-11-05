@@ -38,11 +38,12 @@ class ReservationsController < ApplicationController
 
   def create
     begin
-      user = current_session.user
+      session = current_session
       
       reservation = session.user.reservations.new(params[:reservation])
       reservation.customer = session.user.customers.find(params[:customer_id])
       reservation.rental = session.user.rentals.find(params[:rental_id])
+      reservation.user = session.user
       
       if reservation.save
         render :json => reservation, :status => :created, :location => reservation
@@ -50,7 +51,6 @@ class ReservationsController < ApplicationController
         render :json => reservation.errors, :status => :unprocessable_entity
       end
     rescue Exception => exception
-      puts exception.message
       error exception.message, :not_found
     end
   end
