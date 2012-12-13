@@ -35,16 +35,13 @@ class SessionsController < ApplicationController
 
       session = Session.find_by_user_id(user.id)
         
-      if session != nil
-        session.destroy
+      if session == nil
+          session = Session.new 
+          session.user = user 
+          session.save
       end
       
-      session = Session.new 
-      session.user = user 
-      session.save
-      
       render :json => {:sid => session.sid}
-
 
     rescue Exception => exception
       error exception.message, :not_found
