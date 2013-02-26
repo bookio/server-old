@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   end
   
   
+  
   def base64Decode(str)
     str += '=' * (4 - str.length.modulo(4))
     Base64.decode64(str.tr('-_','+/'))
