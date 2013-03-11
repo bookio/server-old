@@ -21,6 +21,8 @@ class CustomersController < ApplicationController
       error exception.message, :not_found
     end
   end
+  
+  
 
   def search
     begin
