@@ -4,4 +4,3 @@ class Scene < ActiveRecord::Base
   serialize :content
 end
 
-
