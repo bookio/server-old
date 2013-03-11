@@ -47,6 +47,8 @@ Booker::Application.routes.draw do
   match "/reservations/:id" => "reservations#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#update", :via => :put, :defaults => { :format => 'json' }
 
+  match "/settings" => "home#index", :via => :get, :defaults => { :format => 'json' }
+
   #resources :users, :has_many => :reservations
   #resources :rentals, :has_many => :reservations
   #resources :customers, :has_many => :reservations
