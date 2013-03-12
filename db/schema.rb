@@ -10,13 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121101110831) do
+ActiveRecord::Schema.define(:version => 20130312110832) do
 
   create_table "customers", :force => true do |t|
     t.text     "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
+    t.integer  "group_id"
+  end
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "rentals", :force => true do |t|
@@ -25,18 +31,18 @@ ActiveRecord::Schema.define(:version => 20121101110831) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "image"
-    t.integer  "user_id"
+    t.integer  "group_id"
   end
 
   create_table "reservations", :force => true do |t|
     t.integer  "rental_id"
     t.integer  "customer_id"
-    t.integer  "user_id"
     t.datetime "begin_at"
     t.datetime "end_at"
     t.integer  "state"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "group_id"
   end
 
   create_table "scenes", :force => true do |t|
@@ -65,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20121101110831) do
     t.string   "password_salt"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.integer  "group_id"
   end
 
 end

@@ -1,7 +1,7 @@
 class Reservation < ActiveRecord::Base
-  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :user
+  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :group
   
-  validates :customer_id, :user_id, :rental_id, :presence => true
+  validates :customer_id, :rental_id, :group_id, :presence => true
 
   validate :validate_dates, :validate_state
 
@@ -32,9 +32,7 @@ class Reservation < ActiveRecord::Base
     "Foo"
   end
   
-  def user_email
-  	self.user.email;
-  end
+
 
   def customer_name
   	self.customer.name;
@@ -52,5 +50,5 @@ class Reservation < ActiveRecord::Base
  
   belongs_to :rental
   belongs_to :customer
-  belongs_to :user
+  belongs_to :group
 end

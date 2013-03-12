@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   has_many :scenes, :dependent => :destroy
   validates_associated :scenes
   
+  belongs_to :group
+  
   
   def encrypt_password
     if password.present?

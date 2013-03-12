@@ -32,6 +32,14 @@ Booker::Application.routes.draw do
   match "/users/:id" => "users#show", :via => :get, :defaults => { :format => 'json' }, :as => :user
   match "/users/:id" => "users#destroy", :via => :delete, :defaults => { :format => 'json' }
 
+  match "/groups" => "groups#index", :via => :get, :defaults => { :format => 'json' }
+  match "/groups" => "groups#create", :via => :post, :defaults => { :format => 'json' }
+  match "/groups/:id" => "groups#show", :via => :get, :defaults => { :format => 'json' }, :as => :group
+  match "/groups/:id" => "groups#destroy", :via => :delete, :defaults => { :format => 'json' }
+  match "/groups/:id" => "groups#update", :via => :put, :defaults => { :format => 'json' }
+
+
+
   match "/sessions/:id" => "sessions#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/sessions" => "sessions#index", :via => :get, :defaults => { :format => 'json' }
   match "/sessions/:id" => "sessions#show", :via => :get, :defaults => { :format => 'json' }, :as => :session
@@ -42,7 +50,6 @@ Booker::Application.routes.draw do
 
   match "/reservations" => "reservations#index", :via => :get, :defaults => { :format => 'json' }
   match "/reservations" => "reservations#create", :via => :post, :defaults => { :format => 'json' }
-  match "/reservations/list" => "reservations#list", :via => :get, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#show", :via => :get, :defaults => { :format => 'json' }, :as => :reservation
   match "/reservations/:id" => "reservations#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#update", :via => :put, :defaults => { :format => 'json' }

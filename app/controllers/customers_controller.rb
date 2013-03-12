@@ -3,7 +3,7 @@ class CustomersController < ApplicationController
   def index
     begin
       session = current_session
-      customers = session.user.customers
+      customers = session.user.group.customers
       render :json => customers
     
     rescue Exception => exception
@@ -15,7 +15,7 @@ class CustomersController < ApplicationController
     begin
       session = current_session
 
-      customer = session.user.customers.find(params[:id])
+      customer = session.user.group.customers.find(params[:id])
       render :json => customer
     rescue Exception => exception
       error exception.message, :not_found
@@ -28,7 +28,7 @@ class CustomersController < ApplicationController
     begin
       session = current_session
       
-      customers = session.user.customers.where("lower(name) LIKE ?", "%#{params[:search_text].downcase}%")
+      customers = session.user.group.customers.where("lower(name) LIKE ?", "%#{params[:search_text].downcase}%")
       render :json => customers
 
     rescue Exception => exception
@@ -40,7 +40,7 @@ class CustomersController < ApplicationController
     begin
       session = current_session
       
-      customer = session.user.customers.new(params[:customer])
+      customer = session.user.group.customers.new(params[:customer])
       
       if customer.save
         render :json => customer, :status => :created, :location => @customer
@@ -56,7 +56,7 @@ class CustomersController < ApplicationController
   def update
 	begin
       session = current_session
-      customer = session.user.customers.find(params[:id])
+      customer = session.user.group.customers.find(params[:id])
 	
       if customer.update_attributes(params[:customer])
 		render :json => customer
