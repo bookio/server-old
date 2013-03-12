@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
     Base64.decode64(str.tr('-_','+/'))
   end
 
+
   def current_session
     sid = request.headers["Authorization"]
     
