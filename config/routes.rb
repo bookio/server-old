@@ -50,6 +50,7 @@ Booker::Application.routes.draw do
 
   match "/reservations" => "reservations#index", :via => :get, :defaults => { :format => 'json' }
   match "/reservations" => "reservations#create", :via => :post, :defaults => { :format => 'json' }
+  match "/reservations/foo" => "reservations#foo", :via => :get, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#show", :via => :get, :defaults => { :format => 'json' }, :as => :reservation
   match "/reservations/:id" => "reservations#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#update", :via => :put, :defaults => { :format => 'json' }

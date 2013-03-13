@@ -10,16 +10,28 @@ class ReservationsController < ApplicationController
   end
 
 
-  def list
+  def foo
     begin
     
       session = current_session
-      reservations = session.user.group.reservation.joins(:group, :rental, :customer).select(['rentals.name', 
-	    	'rentals.image', 'rentals.id AS rental_id', 
-	    	'reservations.id AS reservation_id', 
-	    	'customers.id AS customer_id',
-	    	'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
-      render :json => reservations
+
+	  reservations = session.user.group.reservations
+	  
+      result = {}
+	  reservations.each do |reservation|
+		result[reservation.id] = reservation;	  	
+	  end
+      #result[:customers] =  session.user.group.customers
+      #result[:rentals] =  session.user.group.rentals
+      #result[:reservations] =  session.user.group.reservations
+      
+      #reservations = result #{:customers => session.user.group.customers}
+      #session.user.group.reservation.joins(:group, :rental, :customer).select(['rentals.name', 
+	  #  	'rentals.image', 'rentals.id AS rental_id', 
+	  #  	'reservations.id AS reservation_id', 
+	  #  	'customers.id AS customer_id',
+	  #  	'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
+      render :json => result
 	    
     rescue Exception => exception
       error exception.message, :not_found
