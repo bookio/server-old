@@ -1,11 +1,5 @@
 Booker::Application.routes.draw do
 
-  #get "sessions/new"
-
- # get "users/new"
-
-  #resource :rental
-
   match "/foo" => "home#index", :via => :get, :defaults => { :format => 'json' }
   
   match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
@@ -38,8 +32,6 @@ Booker::Application.routes.draw do
   match "/groups/:id" => "groups#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/groups/:id" => "groups#update", :via => :put, :defaults => { :format => 'json' }
 
-
-
   match "/sessions/:id" => "sessions#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/sessions" => "sessions#index", :via => :get, :defaults => { :format => 'json' }
   match "/sessions/:id" => "sessions#show", :via => :get, :defaults => { :format => 'json' }, :as => :session
@@ -55,7 +47,11 @@ Booker::Application.routes.draw do
   match "/reservations/:id" => "reservations#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/reservations/:id" => "reservations#update", :via => :put, :defaults => { :format => 'json' }
 
-  match "/settings" => "home#index", :via => :get, :defaults => { :format => 'json' }
+  match "/settings" => "settings#index", :via => :get, :defaults => { :format => 'json' }
+  match "/settings/:section/:name" => "settings#put", :via => :put, :defaults => { :format => 'json' }
+  match "/settings/:section/:name" => "settings#get", :via => :get, :defaults => { :format => 'json' }
+  match "/settings/:section/:name" => "settings#destroy", :via => :delete, :defaults => { :format => 'json' }
+  match "/settings/:section" => "settings#destroy_section", :via => :delete, :defaults => { :format => 'json' }
 
   #resources :users, :has_many => :reservations
   #resources :rentals, :has_many => :reservations

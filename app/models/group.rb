@@ -13,4 +13,7 @@ class Group < ActiveRecord::Base
   has_many :users, :dependent => :destroy
   validates_associated :users
 
+  has_many :settings, :dependent => :destroy
+  validates_associated :settings
+
 end
