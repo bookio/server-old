@@ -41,12 +41,6 @@ class Reservation < ActiveRecord::Base
   def rental_name
   	self.rental.name
   end
-  
-#  def as_json(options={})
-#    super(:include => { :user => { :only => :email }}, :methods => [:foo, :bar])
-#    super(:methods => [:customer_name, :user_email, :rental_name])
-#  end
-
  
   belongs_to :rental
   belongs_to :customer

@@ -28,6 +28,7 @@ class RentalsController < ApplicationController
     begin
       session = current_session
       rental = session.user.group.rentals.new(params[:rental])
+      rental.icon = Icon.find(params[:icon_id])
 
       if rental.save
         render :json => rental, :status => :created, :location => rental
