@@ -19,6 +19,15 @@ class IconsController < ApplicationController
     end
   end
   
+  def fetch
+    begin
+      icon = Icon.find(params[:id])
+      render :json => icon
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+  
   def all   
 	  icons = Icon.all
 	  

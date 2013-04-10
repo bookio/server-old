@@ -29,7 +29,7 @@ Booker::Application.routes.draw do
   match "/icons" => "icons#index", :via => :get, :defaults => { :format => 'json' }
   match "/icons" => "icons#create", :via => :post, :defaults => { :format => 'json' }
   match "/icons/all" => "icons#all", :via => :get, :defaults => { :format => 'json' }
-  match "/icons/:id" => "icons#show", :via => :get, :defaults => { :format => 'json' }, :as => :icon
+  match "/icons/:id" => "icons#fetch", :via => :get, :defaults => { :format => 'json' }, :as => :icon
   match "/icons/:id" => "icons#destroy", :via => :delete, :defaults => { :format => 'json' }
 
   match "/groups" => "groups#index", :via => :get, :defaults => { :format => 'json' }
