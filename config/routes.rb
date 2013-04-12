@@ -4,6 +4,7 @@ Booker::Application.routes.draw do
   
   match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
   match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
+  match "/rentals/categories" => "rentals#categories", :via => :get, :defaults => { :format => 'json' }
   match "/rentals/:id" => "rentals#show", :via => :get, :defaults => { :format => 'json' }, :as => :rental
   match "/rentals/:id" => "rentals#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/rentals/:id" => "rentals#update", :via => :put, :defaults => { :format => 'json' }

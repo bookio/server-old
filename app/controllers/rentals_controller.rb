@@ -12,6 +12,28 @@ class RentalsController < ApplicationController
     end
 
   end
+
+
+  # Returns an array containing all existing categories
+  def categories
+    begin
+        
+      session = current_session
+      
+      results = session.user.group.rentals.select("DISTINCT(rentals.category), rentals.category").where("rentals.category IS NOT NULL")
+
+      categories = []
+      
+	  results.each do |result|
+		categories.push(result["category"])	  	
+	  end
+
+      render :json => categories
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+
+  end
   
   def show
   	begin
