@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130412080011) do
+ActiveRecord::Schema.define(:version => 20130412084249) do
 
   create_table "customers", :force => true do |t|
     t.text     "name"
@@ -36,11 +36,12 @@ ActiveRecord::Schema.define(:version => 20130412080011) do
   create_table "rentals", :force => true do |t|
     t.text     "name"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.integer  "group_id"
     t.integer  "icon_id"
-    t.string   "category"
+    t.string   "category",    :default => "", :null => false
+    t.integer  "depth",       :default => 1,  :null => false
   end
 
   create_table "reservations", :force => true do |t|

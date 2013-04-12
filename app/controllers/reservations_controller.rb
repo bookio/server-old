@@ -9,6 +9,33 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def bookings
+    begin
+      session = current_session
+      reservations = session.user.group.reservations.all
+
+      json = []
+      customers = {}
+      rentals = {}
+      
+	  reservations.each do |reservation|
+	    if !rentals.has_key?(reservation.rental_id)
+          rentals[reservation.rental_id] = []	  	
+		end
+		reservations_for_rental = rentals[reservation.rental_id]
+		reservations_for_rental.push(reservation)
+		
+		customers[reservation.customer_id] = reservation.customer
+	  end
+	  
+	  json = {:customers => customers, "JJJ" => rentals}
+      
+      render :json => json
+    rescue Exception => exception
+    	error exception.message, :not_found
+    end
+  end
+
 
   def foo
     begin

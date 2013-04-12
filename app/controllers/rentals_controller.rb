@@ -20,7 +20,7 @@ class RentalsController < ApplicationController
         
       session = current_session
       
-      results = session.user.group.rentals.select("DISTINCT(rentals.category), rentals.category").where("rentals.category IS NOT NULL")
+      results = session.user.group.rentals.select("DISTINCT(rentals.category), rentals.category").where("rentals.category IS NOT NULL AND LENGTH(rentals.category) > 0")
 
       categories = []
       

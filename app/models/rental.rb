@@ -1,5 +1,5 @@
 class Rental < ActiveRecord::Base
-  attr_accessible :description, :name, :icon_id, :category
+  attr_accessible :description, :name, :icon_id, :category, :depth
 
   validates :icon_id, :group_id, :presence => true
 
