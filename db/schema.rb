@@ -10,13 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130412084249) do
+ActiveRecord::Schema.define(:version => 20130417084922) do
 
   create_table "customers", :force => true do |t|
     t.text     "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.integer  "group_id"
+    t.string   "phone",      :default => "", :null => false
+    t.string   "email",      :default => "", :null => false
   end
 
   create_table "groups", :force => true do |t|

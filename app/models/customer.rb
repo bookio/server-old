@@ -1,5 +1,6 @@
 class Customer < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :phone, :email
+  
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations
   
