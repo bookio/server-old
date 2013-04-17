@@ -28,7 +28,7 @@ class CustomersController < ApplicationController
     begin
       session = current_session
       
-      customers = session.user.group.customers.where("lower(name) LIKE ? OR lower(email) LIKE ? OR lower(phone) LIKE ?", "%#{params[:search_text].downcase}%")
+      customers = session.user.group.customers.where("name ILIKE ? OR email ILIKE ? OR phone ILIKE ?", "%#{params[:search_text]}%", "%#{params[:search_text]}%", "%#{params[:search_text]}%")
       render :json => customers
 
     rescue Exception => exception
