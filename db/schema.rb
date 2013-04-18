@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130417084922) do
+ActiveRecord::Schema.define(:version => 20130418084934) do
 
   create_table "customers", :force => true do |t|
     t.text     "name"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20130417084922) do
     t.integer  "group_id"
     t.string   "phone",      :default => "", :null => false
     t.string   "email",      :default => "", :null => false
+    t.string   "notes",      :default => "", :null => false
   end
 
   create_table "groups", :force => true do |t|
