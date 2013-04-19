@@ -1,5 +1,5 @@
 class Reservation < ActiveRecord::Base
-  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :group
+  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :group, :payed, :delivered, :transferred, :arrived
   
   validates :customer_id, :rental_id, :group_id, :presence => true
 
@@ -10,7 +10,7 @@ class Reservation < ActiveRecord::Base
 
   def validate_dates
     if begin_at == nil or begin_at.blank?
-      errors.add(:begin_at, "must be specified")
+        errors.add(:begin_at, "must be specified")
     elsif end_at == nil or end_at.blank?
         errors.add(:end_at, "must be specified")
     elsif begin_at >= end_at
@@ -19,9 +19,6 @@ class Reservation < ActiveRecord::Base
   end
   
   def validate_state
-    if state == nil
-      errors.add(:state, "must be specified")
-    end
   end
   
   def kalle(param)
