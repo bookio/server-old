@@ -82,8 +82,8 @@ class ReservationsController < ApplicationController
       session = current_session
       
       reservation = session.user.group.reservations.new(params[:reservation])
-      reservation.customer = session.user.group.customers.find(params[:customer_id])
-      reservation.rental = session.user.group.rentals.find(params[:rental_id])
+      #reservation.customer = session.user.group.customers.find(params[:customer_id])
+      #reservation.rental = session.user.group.rentals.find(params[:rental_id])
       
       if reservation.save
         render :json => reservation, :status => :created, :location => reservation

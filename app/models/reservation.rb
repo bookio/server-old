@@ -1,5 +1,5 @@
 class Reservation < ActiveRecord::Base
-  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :group, :payed, :delivered, :transferred, :arrived, :price
+  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :group, :payed, :delivered, :transferred, :arrived, :price, :rental_id, :customer_id
   
   validates :customer_id, :rental_id, :group_id, :presence => true
 
