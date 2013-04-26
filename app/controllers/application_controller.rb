@@ -1,13 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  # comment 2
   
   def error(msg, status)
     render :json => {:error => msg}, :status => status
   end
-  
-  
   
   def base64Decode(str)
     str += '=' * (4 - str.length.modulo(4))
