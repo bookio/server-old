@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  # comment
+  # comment 2
   
   def error(msg, status)
     render :json => {:error => msg}, :status => status
