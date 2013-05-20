@@ -28,6 +28,18 @@ class IconsController < ApplicationController
     end
   end
   
+  def get_by_type
+    begin
+      icons = Icon.find_by_type(params[:type])
+      #"type ILIKE ?", "%#{params[:type]}%")
+      render :json => icons
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+
+  end
+  
+  
   def all   
 	  icons = Icon.all
 	  
