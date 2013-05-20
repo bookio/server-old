@@ -28,9 +28,9 @@ class IconsController < ApplicationController
     end
   end
   
-  def get_by_type
+  def get_by_folder
     begin
-      icons = Icon.find_by_type(params[:type])
+      icons = Icon.where({:folder => params[:folder]})
       #"type ILIKE ?", "%#{params[:type]}%")
       render :json => icons
     rescue Exception => exception
