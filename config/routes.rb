@@ -33,6 +33,7 @@ Booker::Application.routes.draw do
   match "/users" => "users#create", :via => :post, :defaults => { :format => 'json' }
   match "/users/:id" => "users#show", :via => :get, :defaults => { :format => 'json' }, :as => :user
   match "/users/:id" => "users#destroy", :via => :delete, :defaults => { :format => 'json' }
+  match "/users/:id" => "users#update", :via => :put, :defaults => { :format => 'json' }
 
   match "/icons" => "icons#index", :via => :get, :defaults => { :format => 'json' }
   match "/icons" => "icons#create", :via => :post, :defaults => { :format => 'json' }

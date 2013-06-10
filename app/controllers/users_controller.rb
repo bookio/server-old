@@ -46,4 +46,22 @@ class UsersController < ApplicationController
     end
 
   end
+  
+  def update
+	begin
+      session = current_session
+      user = session.user.group.users.find(params[:id])
+	
+      if user.update_attributes(params[:user])
+		render :json => user
+      else
+        render :json => user.errors, :status => :unprocessable_entity
+      end
+	    
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+  
+  
 end
