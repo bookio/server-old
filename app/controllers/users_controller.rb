@@ -1,11 +1,4 @@
 class UsersController < ApplicationController
-  def new
-    begin
-      @user = User.new
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-  end
 
   def index
     begin
@@ -16,10 +9,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    begin
+      session = current_session
+      user = session.user.group.users.find(params[:id])
+
+      render :json => user
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+
+
   def destroy
     begin
-      @user = User.find(params[:id])
-      @user.destroy
+      user = User.find(params[:id])
+      user.destroy
       head :no_content
     rescue Exception => exception
       error exception.message, :not_found
@@ -28,11 +33,13 @@ class UsersController < ApplicationController
   
   def create
     begin
-      @user = User.new(params[:user])
-      if @user.save
-        render :json => @user, :status => :created, :location => @user
+      session = current_session
+      user = session.user.group.users.new(params[:user])
+
+      if user.save
+        render :json => user, :status => :created, :location => user
       else
-        render :json => @user.errors, :status => :unprocessable_entity 
+        render :json => user.errors, :status => :unprocessable_entity 
       end
     rescue Exception => exception
       error exception.message, :not_found

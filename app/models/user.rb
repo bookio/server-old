@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation, :name
+  attr_accessible :email, :password, :password_confirmation, :name, :group_id
   
   attr_accessor :password
   before_save :encrypt_password
@@ -11,17 +11,17 @@ class User < ActiveRecord::Base
 
   has_one :session, :dependent => :destroy
   
-  has_many :reservations, :dependent => :destroy
-  validates_associated :reservations
+  #has_many :reservations, :dependent => :destroy
+  #validates_associated :reservations
   
-  has_many :rentals, :dependent => :destroy
-  validates_associated :rentals
+  #has_many :rentals, :dependent => :destroy
+  #validates_associated :rentals
 
-  has_many :customers, :dependent => :destroy
-  validates_associated :customers
+  #has_many :customers, :dependent => :destroy
+  #validates_associated :customers
 
-  has_many :scenes, :dependent => :destroy
-  validates_associated :scenes
+  #has_many :scenes, :dependent => :destroy
+  #validates_associated :scenes
   
   belongs_to :group
   
