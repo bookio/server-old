@@ -15,25 +15,6 @@ class RentalsController < ApplicationController
 
 
   # Returns an array containing all existing categories
-  def categories
-    begin
-        
-      session = current_session
-      
-      results = session.user.group.rentals.select("DISTINCT(rentals.category), rentals.category").where("rentals.category IS NOT NULL AND LENGTH(rentals.category) > 0")
-
-      categories = []
-      
-	  results.each do |result|
-		categories.push(result["category"])	  	
-	  end
-
-      render :json => categories
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-
-  end
   
   def show
   	begin
@@ -51,6 +32,7 @@ class RentalsController < ApplicationController
       session = current_session
       rental = session.user.group.rentals.new(params[:rental])
       rental.icon = Icon.find(params[:icon_id])
+      rental.category = Category.find(params[:category_id])
 
       if rental.save
         render :json => rental, :status => :created, :location => rental
