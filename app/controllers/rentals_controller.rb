@@ -53,7 +53,7 @@ class RentalsController < ApplicationController
       if rental.update_attributes(params[:rental])
   		render :json => rental
       else
-        render :json => rental, :status => :unprocessable_entity
+        render :json => rental.errors, :status => :unprocessable_entity
       end
 	    
     rescue Exception => exception
