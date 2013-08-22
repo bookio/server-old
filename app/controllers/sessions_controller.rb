@@ -48,24 +48,6 @@ class SessionsController < ApplicationController
     end
   end
   
-  def initialize
-    begin
-      user = signup
-
-      session = Session.find_by_user_id(user.id)
-        
-      if session == nil
-          session = Session.new 
-          session.user = user 
-          session.save
-      end
-      
-      render :json => {:sid => session.sid}
-
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-  end
   
   def logout
     begin

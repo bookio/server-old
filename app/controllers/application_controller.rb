@@ -65,59 +65,6 @@ class ApplicationController < ActionController::Base
   end
   
   
-  def signup 
-    puts "HEJ"
-    authorization = request.headers["Authorization"]
-    puts authorization
-    
-    if authorization == nil 
-      raise "There is no authorization specified in the http header."
-    end
-    
-    authorization = authorization.split(' ')[1]
-    
-    if (authorization == nil) 
-      raise "There is no authorization specified in the http header."
-    end
-    
-    emailAndPassword = base64Decode(authorization)
-    email = emailAndPassword.split(':')[0]
-    password = emailAndPassword.split(':')[1]
-    user = nil 
-    
-    if email == nil
-        raise "An e-mail address must be specified."
-    end
-    
-    user = User.find_by_email(email)
-    
-    if user != nil
-        if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-            raise "Please specify a password."
-        end
-    else
-        group = Group.new
-        group.name = "Bookio Trial"
-        
-        if !group.save
-            raise "Failed to create group."
-        end
-        
-        user = group.users.new
-        user.name = email
-        user.password = password
-        
-        if !user.save
-            raise "Failed to create user."
-        end
-    end
-    
-    user
-    
-
-  end
-  
-  
   
   helper_method :current_user
 
