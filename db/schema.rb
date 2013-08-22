@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130701121403) do
+ActiveRecord::Schema.define(:version => 20130822134416) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(:version => 20130701121403) do
   end
 
   create_table "groups", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",       :default => "", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "icons", :force => true do |t|
