@@ -51,13 +51,13 @@ class ApplicationController < ActionController::Base
         raise "An e-mail address must be specified."
     end
     
-    if password == nil
-      raise "You must specify a password."
-    end
-    
     user = User.find_by_email(email)
 
-    if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+    if user == nil
+      raise "Invalid e-mail address or password."
+    end
+
+    if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
       raise "Invalid e-mail address or password."
     end
     
