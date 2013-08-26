@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
     session
   end
   
+  def authenticate(createIfNeeded)
   
-  def authenticate
     authorization = request.headers["Authorization"]
     
     if authorization == nil 
@@ -53,16 +53,38 @@ class ApplicationController < ActionController::Base
     
     user = User.find_by_email(email)
 
-    if user == nil
-      raise "Invalid e-mail address or password."
-    end
-
-    if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-      raise "Invalid e-mail address or password."
+    if createIfNeeded 
+        if user == nil
+            ActiveRecord::Base.transaction do        
+                group = Group.new
+                group.name = "Bookio"
+                group.save!
+                
+                user = group.users.new
+                user.name = email
+                user.email = email
+                user.password = password   
+                user.save!
+            end
+        else 
+            if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+              raise "Invalid password."
+            end
+        end
+    else 
+        if user == nil
+          raise "Invalid e-mail address or password."
+        end
+    
+        if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+          raise "Invalid e-mail address or password."
+        end
     end
     
     user
   end
+  
+  
   
   
   

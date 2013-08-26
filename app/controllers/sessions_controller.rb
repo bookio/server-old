@@ -28,10 +28,29 @@ class SessionsController < ApplicationController
       error exception.message, :not_found
     end
   end
+
+  def signin
+    begin
+      user = authenticate(true)
+
+      session = Session.find_by_user_id(user.id)
+        
+      if session == nil
+          session = Session.new 
+          session.user = user 
+          session.save
+      end
+      
+      render :json => {:sid => session.sid}
+
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
   
   def login
     begin
-      user = authenticate
+      user = authenticate(false)
 
       session = Session.find_by_user_id(user.id)
         
