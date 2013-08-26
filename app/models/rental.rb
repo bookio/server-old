@@ -7,8 +7,8 @@ class Rental < ActiveRecord::Base
   validates_associated :reservations
 
   belongs_to :group
-  belongs_to :icon
-  belongs_to :category
+  #belongs_to :icon
+  #belongs_to :category
 
   #def url 
   #	"rentals/" + self.id.to_s
