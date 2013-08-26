@@ -1,7 +1,7 @@
 class Rental < ActiveRecord::Base
   attr_accessible :description, :name, :icon_id, :category_id, :depth
 
-  validates :icon_id, :group_id, :category_id, :presence => true
+  validates :group_id, :presence => true
 
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations
