@@ -31,9 +31,19 @@ class RentalsController < ApplicationController
     begin
       session = current_session
       rental = session.user.group.rentals.new(params[:rental])
-      rental.icon = Icon.find(params[:icon_id])
-      rental.category = Category.find(params[:category_id])
-
+      
+      if params[:icon_id]
+          rental.icon = Icon.find(params[:icon_id])
+      else
+          rental.icon = nil
+      end
+      
+      if params[:category_id]
+          rental.category = Category.find(params[:category_id])
+      else
+          rental.category = nil
+      end
+      
       if rental.save
         render :json => rental, :status => :created, :location => rental
       else
