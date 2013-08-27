@@ -29,14 +29,14 @@ class SessionsController < ApplicationController
     end
   end
 
-  def find_user_by_email
+  def find_user_by_emailX
     begin
-    puts ".möllkjlökjlökj"
-puts request.body.read
-puts params[:email]
-puts params[:session]
-
-    puts ".möllkjlökjlökj"
+#    puts ".möllkjlökjlökj"
+#puts request.body.read
+#puts params[:email]
+#puts params[:session]
+#
+#    puts ".möllkjlökjlökj"
  
       email = params[:email]
       user = User.find_by_email(email)
