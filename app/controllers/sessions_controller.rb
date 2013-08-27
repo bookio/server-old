@@ -29,6 +29,25 @@ class SessionsController < ApplicationController
     end
   end
 
+  def find_user_by_email
+    begin
+    puts ".möllkjlökjlökj"
+puts request.body.read
+    puts ".möllkjlökjlökj"
+ 
+      email = params[:email]
+      user = User.find_by_email(email)
+
+      if user == nil 
+        user = {}
+      end
+      
+      render :json => user
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+  
   def signin
     begin
       user = authenticate(true)

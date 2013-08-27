@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130822134416) do
+ActiveRecord::Schema.define(:version => 20130827093851) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130822134416) do
     t.integer  "icon_id"
     t.integer  "depth",       :default => 1, :null => false
     t.integer  "category_id"
+    t.integer  "available",   :default => 1, :null => false
   end
 
   create_table "reservations", :force => true do |t|
