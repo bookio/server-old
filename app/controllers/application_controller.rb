@@ -67,16 +67,12 @@ class ApplicationController < ActionController::Base
                 user.save!
             end
         else 
-            if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+            if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
               raise "Invalid password."
             end
         end
     else 
-        if user == nil
-          raise "Invalid e-mail address or password."
-        end
-    
-        if password != nil && user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+        if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
           raise "Invalid e-mail address or password."
         end
     end

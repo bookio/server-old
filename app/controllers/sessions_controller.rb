@@ -29,14 +29,8 @@ class SessionsController < ApplicationController
     end
   end
 
-  def find_user_by_emailX
+  def find_user_by_email
     begin
-#    puts ".möllkjlökjlökj"
-#puts request.body.read
-#puts params[:email]
-#puts params[:session]
-#
-#    puts ".möllkjlökjlökj"
  
       email = params[:email]
       user = User.find_by_email(email)
@@ -51,7 +45,7 @@ class SessionsController < ApplicationController
     end
   end
   
-  def signin
+  def signup
     begin
       user = authenticate(true)
 
