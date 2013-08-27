@@ -33,6 +33,9 @@ class SessionsController < ApplicationController
     begin
     puts ".möllkjlökjlökj"
 puts request.body.read
+puts params[:email]
+puts params[:session]
+
     puts ".möllkjlökjlökj"
  
       email = params[:email]
