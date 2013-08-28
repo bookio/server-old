@@ -67,9 +67,7 @@ class ApplicationController < ActionController::Base
                 user.save!
             end
         else 
-            if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-              raise "Invalid password."
-            end
+            raise "This e-mail address is currently in use."
         end
     else 
         if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)

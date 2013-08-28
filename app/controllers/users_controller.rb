@@ -2,8 +2,9 @@ class UsersController < ApplicationController
 
   def index
     begin
-      @users = User.all
-      render :json => @users
+      session = current_session
+      users = session.user.group.users.all
+      render :json => users
     rescue Exception => exception
       error exception.message, :not_found
     end
