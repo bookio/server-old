@@ -10,14 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130827093851) do
+ActiveRecord::Schema.define(:version => 20130905115105) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.integer  "group_id"
+    t.string   "image",       :default => "", :null => false
   end
 
   create_table "customers", :force => true do |t|

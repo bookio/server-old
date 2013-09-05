@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  attr_accessible :description, :name
+  attr_accessible :description, :name, :image
   
   has_many :rentals, :dependent => :destroy
   validates_associated :rentals
