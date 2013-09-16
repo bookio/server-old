@@ -45,8 +45,13 @@ class SettingsController < ApplicationController
           setting.section = params[:section];
           setting.name = params[:name];
         end
+
+        if setting.value == nil 
+            setting.value = value
+        else
+            setting.value = setting.value.merge(value)
+        end
           
-        setting.value = ActiveSupport::JSON.decode(body)
         
         if setting.save
           render :json => setting.value, :status => :created, :location => @customer
