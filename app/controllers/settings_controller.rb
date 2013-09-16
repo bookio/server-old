@@ -46,15 +46,17 @@ class SettingsController < ApplicationController
           setting.name = params[:name];
         end
 
-        if setting.value == nil 
-            setting.value = value
-        else
-            setting.value = setting.value.merge(value)
+        if setting.value != nil 
+            value = setting.value.merge(value)
         end
-          
+
+        # Remove null values
+        value.delete_if { |k, v| v == nil }          
+        
+        setting.value = value
         
         if setting.save
-          render :json => setting.value, :status => :created, :location => @customer
+          render :json => setting.value, :status => :created
         else
           render :json => setting.errors, :status => :unprocessable_entity
         end
