@@ -5,7 +5,7 @@ class RentalsController < ApplicationController
     begin
       session = current_session
       
-      rentals = session.user.group.rentals.all
+      rentals = session.user.client.rentals.all
       render :json => rentals
     rescue Exception => exception
       error exception.message, :not_found
@@ -20,7 +20,7 @@ class RentalsController < ApplicationController
   	begin
       session = current_session
 
-      rental = session.user.group.rentals.find(params[:id])
+      rental = session.user.client.rentals.find(params[:id])
       render :json => rental
     rescue Exception => exception
       error exception.message, :not_found
@@ -30,7 +30,7 @@ class RentalsController < ApplicationController
   def create
     begin
       session = current_session
-      rental = session.user.group.rentals.new(params[:rental])
+      rental = session.user.client.rentals.new(params[:rental])
       
       if params[:icon_id]
           rental.icon = Icon.find(params[:icon_id])
@@ -58,7 +58,7 @@ class RentalsController < ApplicationController
   def update
 	begin
       session = current_session
-      rental = session.user.group.rentals.find(params[:id])
+      rental = session.user.client.rentals.find(params[:id])
 	
       if rental.update_attributes(params[:rental])
   		render :json => rental
@@ -75,7 +75,7 @@ class RentalsController < ApplicationController
     begin
       session = current_session
 
-      rental = session.user.group.rentals.find(params[:id])
+      rental = session.user.client.rentals.find(params[:id])
       rental.destroy
       
       head :no_content

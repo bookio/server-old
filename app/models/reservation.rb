@@ -1,7 +1,7 @@
 class Reservation < ActiveRecord::Base
-  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :group, :payed, :delivered, :transferred, :arrived, :price, :rental_id, :customer_id
+  attr_accessible :customer, :end_at, :rental, :begin_at, :state, :client_id, :payed, :delivered, :transferred, :arrived, :price, :rental_id, :customer_id
   
-  validates :customer_id, :rental_id, :group_id, :presence => true
+  validates :customer_id, :rental_id, :client_id, :presence => true
 
   validate :validate_dates, :validate_state
 
@@ -41,5 +41,5 @@ class Reservation < ActiveRecord::Base
  
   belongs_to :rental
   belongs_to :customer
-  belongs_to :group
+  belongs_to :client
 end

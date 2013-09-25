@@ -4,8 +4,8 @@ class SessionsController < ApplicationController
 
   def index
     begin
-      @sessions = Session.all
-      render :json => @sessions
+      sessions = Session.all
+      render :json => sessions
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -13,8 +13,8 @@ class SessionsController < ApplicationController
   
   def show
     begin
-      @session = Session.find(params[:id])
-      render :json => @session
+      session = Session.find(params[:id])
+      render :json => session
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
   def verify
     begin
       session = current_session
-      render :json => {:sid => session.sid}
+      render :json => {:sid => session.sid, :client => session.user.client, :user => session.user}
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -47,8 +47,28 @@ class SessionsController < ApplicationController
   
   def signup
     begin
-      user = authenticate(true)
+      credentials = credentials()
+      
+      username = credentials[:username]
+      password = credentials[:password]
+      
+      user = User.find_by_username(username)
 
+      if user != nil
+        raise "This user name is currently in use."
+      end
+      
+      ActiveRecord::Base.transaction do        
+        client = Client.new
+        client.name = "Bookio"
+        client.save!
+            
+        user = client.users.new
+        user.username = username
+        user.password = password   
+        user.save!
+      end
+  
       session = Session.find_by_user_id(user.id)
         
       if session == nil
@@ -57,7 +77,7 @@ class SessionsController < ApplicationController
           session.save
       end
       
-      render :json => {:sid => session.sid}
+      render :json => {:sid => session.sid, :client => session.user.client, :user => session.user}
 
     rescue Exception => exception
       error exception.message, :not_found
@@ -66,7 +86,20 @@ class SessionsController < ApplicationController
   
   def login
     begin
-      user = authenticate(false)
+      credentials = credentials()
+      username = credentials[:username]
+      password = credentials[:password]
+      user = User.find_by_username(username)
+
+      if user == nil
+        raise "Invalid user name."
+      end
+    
+      if user.guest == 0 
+          if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+            raise "Invalid password."
+          end
+      end
 
       session = Session.find_by_user_id(user.id)
         
@@ -76,12 +109,13 @@ class SessionsController < ApplicationController
           session.save
       end
       
-      render :json => {:sid => session.sid}
+      render :json => {:sid => session.sid, :client => session.user.client, :user => session.user}
 
     rescue Exception => exception
       error exception.message, :not_found
     end
   end
+
   
   
   def logout
@@ -97,8 +131,8 @@ class SessionsController < ApplicationController
   
   def destroy
     begin
-      @session = Session.find(params[:id])
-      @session.destroy
+      session = Session.find(params[:id])
+      session.destroy
       head :no_content
     rescue Exception => exception
       error exception.message, :not_found

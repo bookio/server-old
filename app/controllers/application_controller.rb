@@ -11,6 +11,17 @@ class ApplicationController < ActionController::Base
     Base64.decode64(str.tr('-_','+/'))
   end
 
+  def foo
+    begin
+	    #reservations = Reservation.joins(:user, :rental).select(['rentals.name', 'rentals.image', 'reservations.id', 'user.email', 'reservations.begin_at', 'reservations.end_at'])
+	    render :json => User.all
+	    
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+    
+  end
+
 
   def current_session
     sid = request.headers["Authorization"]
@@ -28,6 +39,34 @@ class ApplicationController < ActionController::Base
     session
   end
   
+  def credentials()
+    authorization = request.headers["Authorization"]
+    
+    if authorization == nil 
+      raise "There is no authorization specified in the http header."
+    end
+    
+    authorization = authorization.split(' ')[1]
+    
+    if (authorization == nil) 
+      raise "There is no authorization specified in the http header."
+    end
+    
+    authorization = base64Decode(authorization)
+    username = authorization.split(':')[0]
+    password = authorization.split(':')[1]
+    
+    if username == nil
+        raise "A user name must be specified."
+    end
+
+    if password == nil 
+        password = ""
+    end
+    
+    {:username => username, :password => password}
+  end
+  
   def authenticate(createIfNeeded)
   
     authorization = request.headers["Authorization"]
@@ -42,36 +81,45 @@ class ApplicationController < ActionController::Base
       raise "There is no authorization specified in the http header."
     end
     
-    emailAndPassword = base64Decode(authorization)
-    email = emailAndPassword.split(':')[0]
-    password = emailAndPassword.split(':')[1]
+    authorization = base64Decode(authorization)
+    username = authorization.split(':')[0]
+    password = authorization.split(':')[1]
+
+#    x = foo()
+ #   puts x[:username]
+    
     user = nil 
     
-    if email == nil
-        raise "An e-mail address must be specified."
+    if username == nil
+        raise "A user name must be specified."
+    end
+
+    if password == nil 
+        password = ""
     end
     
-    user = User.find_by_email(email)
+    user = User.find_by_username(username)
 
     if createIfNeeded 
         if user == nil
             ActiveRecord::Base.transaction do        
-                group = Group.new
-                group.name = "Bookio"
-                group.save!
+                client = Client.new
+                client.name = "Bookio"
+                client.save!
                 
-                user = group.users.new
-                user.name = email
-                user.email = email
+                user = client.users.new
+                user.username = username
                 user.password = password   
                 user.save!
             end
         else 
-            raise "This e-mail address is currently in use."
+            raise "This user name is currently in use."
         end
     else 
-        if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-          raise "Invalid e-mail address or password."
+        if user.guest == 0 
+            if user == nil || user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+                raise "Invalid user name or password."
+            end
         end
     end
     

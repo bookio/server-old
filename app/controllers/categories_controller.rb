@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   def fetch_all
     begin
       session = current_session
-      categories = session.user.group.categories
+      categories = session.user.client.categories
       render :json => categories
     
     rescue Exception => exception
@@ -15,7 +15,7 @@ class CategoriesController < ApplicationController
     begin
       session = current_session
 
-      category = session.user.group.categories.find(params[:id])
+      category = session.user.client.categories.find(params[:id])
       render :json => category
     rescue Exception => exception
       error exception.message, :not_found
@@ -27,7 +27,7 @@ class CategoriesController < ApplicationController
     begin
       session = current_session
       
-      category = session.user.group.categories.new(params[:category])
+      category = session.user.client.categories.new(params[:category])
       
       if category.save
         render :json => category, :status => :created, :location => category
@@ -43,7 +43,7 @@ class CategoriesController < ApplicationController
   def update
 	begin
       session = current_session
-      category = session.user.group.categories.find(params[:id])
+      category = session.user.client.categories.find(params[:id])
 	
       if category.update_attributes(params[:category])
 		render :json => category

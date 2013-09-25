@@ -1,13 +1,14 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation, :name, :group_id
+  attr_accessible :username, :email, :password, :name, :client_id
   
   attr_accessor :password
   before_save :encrypt_password
   
   #validates_confirmation_of :password
   #validates_presence_of :password, :on => :create
-  validates_presence_of :email
-  validates_uniqueness_of :email
+
+  validates_presence_of :username
+  validates_uniqueness_of :username
 
   has_one :session, :dependent => :destroy
   
@@ -23,7 +24,7 @@ class User < ActiveRecord::Base
   #has_many :scenes, :dependent => :destroy
   #validates_associated :scenes
   
-  belongs_to :group
+  belongs_to :client
   
   
   def encrypt_password

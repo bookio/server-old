@@ -4,5 +4,5 @@ class Category < ActiveRecord::Base
   has_many :rentals, :dependent => :destroy
   validates_associated :rentals
   
-  belongs_to :group  
+  belongs_to :client  
 end

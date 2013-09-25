@@ -10,26 +10,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130916121147) do
+ActiveRecord::Schema.define(:version => 20130924124514) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-    t.integer  "group_id"
     t.string   "image",       :default => "",   :null => false
     t.boolean  "available",   :default => true, :null => false
+    t.integer  "client_id"
+  end
+
+  create_table "clients", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "customers", :force => true do |t|
     t.text     "name"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
-    t.integer  "group_id"
     t.string   "phone",      :default => "", :null => false
     t.string   "email",      :default => "", :null => false
     t.string   "notes",      :default => "", :null => false
+    t.integer  "client_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -52,11 +58,11 @@ ActiveRecord::Schema.define(:version => 20130916121147) do
     t.text     "description"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
-    t.integer  "group_id"
     t.integer  "icon_id"
     t.integer  "depth",       :default => 1, :null => false
     t.integer  "category_id"
     t.integer  "available",   :default => 1, :null => false
+    t.integer  "client_id"
   end
 
   create_table "reservations", :force => true do |t|
@@ -67,12 +73,12 @@ ActiveRecord::Schema.define(:version => 20130916121147) do
     t.integer  "state"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
-    t.integer  "group_id"
     t.integer  "payed",       :default => 0, :null => false
     t.integer  "delivered",   :default => 0, :null => false
     t.integer  "transferred", :default => 0, :null => false
     t.integer  "arrived",     :default => 0, :null => false
     t.float    "price"
+    t.integer  "client_id"
   end
 
   create_table "scenes", :force => true do |t|
@@ -96,12 +102,12 @@ ActiveRecord::Schema.define(:version => 20130916121147) do
   add_index "sessions", ["user_id"], :name => "index_sessions_on_user_id"
 
   create_table "settings", :force => true do |t|
-    t.integer  "group_id"
     t.string   "section"
     t.string   "name"
     t.binary   "value"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "client_id"
   end
 
   create_table "users", :force => true do |t|
@@ -110,8 +116,10 @@ ActiveRecord::Schema.define(:version => 20130916121147) do
     t.string   "password_salt"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-    t.integer  "group_id"
     t.string   "name",          :default => "", :null => false
+    t.integer  "client_id"
+    t.string   "username",      :default => "", :null => false
+    t.integer  "guest",         :default => 0,  :null => false
   end
 
 end

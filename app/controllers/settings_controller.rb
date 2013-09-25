@@ -5,7 +5,7 @@ class SettingsController < ApplicationController
     begin
       session = current_session
       
-      render :json => session.user.group.settings.all
+      render :json => session.user.client.settings.all
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
   def get
   	begin
       session = current_session
-      setting = session.user.group.settings.where("section = ? and name = ?", params[:section], params[:name]).first
+      setting = session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).first
       
       if setting == nil 
         render :json => nil 
@@ -38,10 +38,10 @@ class SettingsController < ApplicationController
       if body != ""
         value = ActiveSupport::JSON.decode(body) 
 
-        setting = session.user.group.settings.where("section = ? and name = ?", params[:section], params[:name]).first
+        setting = session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).first
     
         if setting == nil 
-          setting = session.user.group.settings.new(params[:setting])
+          setting = session.user.client.settings.new(params[:setting])
           setting.section = params[:section];
           setting.name = params[:name];
         end
@@ -63,7 +63,7 @@ class SettingsController < ApplicationController
         
       else
 
-          session.user.group.settings.where("section = ? and name = ?", params[:section], params[:name]).destroy_all
+          session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).destroy_all
           head :no_content
       end
  
@@ -75,7 +75,7 @@ class SettingsController < ApplicationController
   def destroy
   	begin
       session = current_session
-      session.user.group.settings.where("section = ? and name = ?", params[:section], params[:name]).destroy_all
+      session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).destroy_all
 
       head :no_content
       
@@ -87,7 +87,7 @@ class SettingsController < ApplicationController
   def destroy_section
   	begin
       session = current_session
-      session.user.group.settings.where("section = ?", params[:section]).destroy_all
+      session.user.client.settings.where("section = ?", params[:section]).destroy_all
 
       head :no_content
       

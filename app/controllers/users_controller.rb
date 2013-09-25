@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   def index
     begin
       session = current_session
-      users = session.user.group.users.all
+      users = session.user.client.users.where("guest = 0")
       render :json => users
     rescue Exception => exception
       error exception.message, :not_found
@@ -13,8 +13,28 @@ class UsersController < ApplicationController
   def show
     begin
       session = current_session
-      user = session.user.group.users.find(params[:id])
+      user = session.user.client.users.find(params[:id])
 
+      render :json => user
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+
+
+  def guest
+    begin
+      session = current_session
+      user = session.user.client.users.find_by_guest(true)
+
+      if user == nil 
+        user = session.user.client.users.new
+        user.username = rand(36**32).to_s(36)
+        user.password = ""
+        user.guest = true
+        user.save!
+      end
+      
       render :json => user
     rescue Exception => exception
       error exception.message, :not_found
@@ -35,10 +55,10 @@ class UsersController < ApplicationController
   def create
     begin
       session = current_session
-      user = session.user.group.users.new(params[:user])
+      user = session.user.client.users.new(params[:user])
 
       if user.save
-        render :json => user, :status => :created, :location => user
+        render :json => user, :status => :created
       else
         render :json => user.errors, :status => :unprocessable_entity 
       end
@@ -51,7 +71,7 @@ class UsersController < ApplicationController
   def update
 	begin
       session = current_session
-      user = session.user.group.users.find(params[:id])
+      user = session.user.client.users.find(params[:id])
 	
       if user.update_attributes(params[:user])
 		render :json => user

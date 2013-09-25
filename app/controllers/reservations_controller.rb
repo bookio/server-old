@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
   def index
     begin
       session = current_session
-      json =  render :json => session.user.group.reservations.all
+      json =  render :json => session.user.client.reservations.all
     rescue Exception => exception
     	error exception.message, :not_found
     end
@@ -13,7 +13,7 @@ class ReservationsController < ApplicationController
   def bookings
     begin
       session = current_session
-      reservations = session.user.group.reservations.all
+      reservations = session.user.client.reservations.all
 
       json = []
       customers = {}
@@ -43,22 +43,14 @@ class ReservationsController < ApplicationController
     
       session = current_session
 
-	  reservations = session.user.group.reservations
+	  reservations = session.user.client.reservations
 	  
       result = {}
+
 	  reservations.each do |reservation|
 		result[reservation.id] = reservation;	  	
 	  end
-      #result[:customers] =  session.user.group.customers
-      #result[:rentals] =  session.user.group.rentals
-      #result[:reservations] =  session.user.group.reservations
-      
-      #reservations = result #{:customers => session.user.group.customers}
-      #session.user.group.reservation.joins(:group, :rental, :customer).select(['rentals.name', 
-	  #  	'rentals.image', 'rentals.id AS rental_id', 
-	  #  	'reservations.id AS reservation_id', 
-	  #  	'customers.id AS customer_id',
-	  #  	'reservations.state', 'reservations.begin_at', 'reservations.end_at'])
+
       render :json => result
 	    
     rescue Exception => exception
@@ -69,7 +61,7 @@ class ReservationsController < ApplicationController
   def show
     begin
       session = current_session
-      reservation = session.user.group.reservations.find(params[:id])
+      reservation = session.user.client.reservations.find(params[:id])
       
       render :json => reservation
     
@@ -82,9 +74,7 @@ class ReservationsController < ApplicationController
     begin
       session = current_session
       
-      reservation = session.user.group.reservations.new(params[:reservation])
-      #reservation.customer = session.user.group.customers.find(params[:customer_id])
-      #reservation.rental = session.user.group.rentals.find(params[:rental_id])
+      reservation = session.user.client.reservations.new(params[:reservation])
       
       if reservation.save
         render :json => reservation, :status => :created, :location => reservation
@@ -99,7 +89,7 @@ class ReservationsController < ApplicationController
   def update
 	begin
       session = current_session
-      reservation = session.user.group.reservations.find(params[:id])
+      reservation = session.user.client.reservations.find(params[:id])
 	
       if reservation.update_attributes(params[:reservation])
 		render :json => reservation
@@ -116,7 +106,7 @@ class ReservationsController < ApplicationController
     begin
       session = current_session
 
-      customer = session.user.group.reservations.find(params[:id])
+      customer = session.user.client.reservations.find(params[:id])
       customer.destroy
       head :no_content
 

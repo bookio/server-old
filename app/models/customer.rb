@@ -4,6 +4,6 @@ class Customer < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   validates_associated :reservations
   
-  belongs_to :group
+  belongs_to :client
   
 end

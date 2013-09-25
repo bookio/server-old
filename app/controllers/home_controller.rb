@@ -2,10 +2,10 @@
 
 class HomeController < ApplicationController
   
-  def index
+  def foo
     begin
-	    reservations = Reservation.joins(:user, :rental).select(['rentals.name', 'rentals.image', 'reservations.id', 'users.email', 'reservations.begin_at', 'reservations.end_at'])
-	    render :json => reservations
+	    #reservations = Reservation.joins(:user, :rental).select(['rentals.name', 'rentals.image', 'reservations.id', 'user.email', 'reservations.begin_at', 'reservations.end_at'])
+	    render :json => User.all
 	    
     rescue Exception => exception
       error exception.message, :not_found
