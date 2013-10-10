@@ -96,9 +96,11 @@ class SessionsController < ApplicationController
       end
     
       if user.guest == 0 
+        if password != ""
           if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
             raise "Invalid password."
           end
+        end
       end
 
       session = Session.find_by_user_id(user.id)
