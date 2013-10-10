@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
       if user == nil 
         user = session.user.client.users.new
-        user.username = rand(36**32).to_s(36)
+        user.username = SecureRandom.uuid()
         user.password = ""
         user.guest = true
         user.save!

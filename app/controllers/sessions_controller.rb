@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       error exception.message, :not_found
     end
   end
-  
+
   def show
     begin
       session = Session.find(params[:id])
@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
       error exception.message, :not_found
     end
   end
-  
+
   def verify
     begin
       session = current_session

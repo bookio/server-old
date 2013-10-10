@@ -11,16 +11,7 @@ class ApplicationController < ActionController::Base
     Base64.decode64(str.tr('-_','+/'))
   end
 
-  def foo
-    begin
-	    #reservations = Reservation.joins(:user, :rental).select(['rentals.name', 'rentals.image', 'reservations.id', 'user.email', 'reservations.begin_at', 'reservations.end_at'])
-	    render :json => User.all
-	    
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-    
-  end
+
 
 
   def current_session
