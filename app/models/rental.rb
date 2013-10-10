@@ -10,5 +10,24 @@ class Rental < ActiveRecord::Base
   belongs_to :icon
   belongs_to :category
 
+
+
+  def self.available(begin_at, end_at)
+      
+      # find all reservations that occupies the specified period
+      reservations = client.reservations.overlap(begin_at, end_at)
+
+      unavailable = []
+
+	  reservations.each do |reservation|
+        unavailable.push(reservation.rental_id)
+	  end       
+
+	  rentals = client.rentals
+	  rentals = rentals.where('available <> 0')
+	  rentals = rentals.where('id not in (?)', unavailable)
+
+	  rentals
+  end
  
 end

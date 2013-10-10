@@ -36,6 +36,19 @@ class CustomersController < ApplicationController
     end
   end
 
+  def search_email
+    begin
+      session = current_session
+      email = params[:email];
+      puts email
+      customers = session.user.client.customers.where("email = ?", email)
+      render :json => customers
+
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+
   def create
     begin
       session = current_session

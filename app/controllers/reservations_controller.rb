@@ -8,6 +8,8 @@ class ReservationsController < ApplicationController
     	error exception.message, :not_found
     end
   end
+
+
   
 
   def bookings

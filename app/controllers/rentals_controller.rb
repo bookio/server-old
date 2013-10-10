@@ -13,7 +13,50 @@ class RentalsController < ApplicationController
 
   end
 
+  def query
+    begin
+      session = current_session
+      begin_at = DateTime.parse(params[:begin_at])
+      end_at = DateTime.parse(params[:end_at])
+      category_id = params[:category_id]
+      
+      reservations = session.user.client.reservations.overlaps(begin_at, end_at).select(:rental_id)
 
+      unavailable = []
+
+	  reservations.each do |reservation|
+        unavailable.push(reservation.rental_id)
+	  end       
+
+	  rentals = session.user.client.rentals
+	  rentals = rentals.where('available <> 0')
+	  
+	  if unavailable.count > 0
+    	  rentals = rentals.where("id not in (?)", unavailable)
+	  end
+	  
+	  if category_id != nil
+    	  rentals = rentals.where("category_id = ?", category_id)
+	  end
+
+      render :json => rentals.all
+      
+    rescue Exception => exception
+    	error exception.message, :not_found
+    end
+    
+  end
+  
+  def book
+  	begin
+      session = current_session
+      render :json => session
+    rescue Exception => exception
+      error exception.message, :not_found
+    end
+  end
+  
+  
   # Returns an array containing all existing categories
   
   def show

@@ -1,10 +1,11 @@
 Booker::Application.routes.draw do
 
   match "/clients/:client_id/users/:user_id" => "home#foo", :via => :get, :defaults => { :format => 'json' }
-  match "/bookings" => "reservations#bookings", :via => :get, :defaults => { :format => 'json' }
+  match "/bookings" => "home#foo", :via => :get, :defaults => { :format => 'json' }
   
   match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
   match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
+  match "/rentals/query" => "rentals#query", :via => :get, :defaults => { :format => 'json' }
   match "/rentals/:id" => "rentals#show", :via => :get, :defaults => { :format => 'json' }, :as => :rental
   match "/rentals/:id" => "rentals#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/rentals/:id" => "rentals#update", :via => :put, :defaults => { :format => 'json' }
@@ -23,10 +24,11 @@ Booker::Application.routes.draw do
 
   match "/customers" => "customers#index", :via => :get, :defaults => { :format => 'json' }
   match "/customers" => "customers#create", :via => :post, :defaults => { :format => 'json' }
+  match "/customers/search_email" => "customers#search_email", :via => :get, :defaults => { :format => 'json' }
+  match "/customers/search/:search_text" => "customers#search", :via => :get, :defaults => { :format => 'json' }
   match "/customers/:id" => "customers#show", :via => :get, :defaults => { :format => 'json' }, :as => :customer
   match "/customers/:id" => "customers#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/customers/:id" => "customers#update", :via => :put, :defaults => { :format => 'json' }
-  match "/customers/search/:search_text" => "customers#search", :via => :get, :defaults => { :format => 'json' }
 
   match "/users" => "users#index", :via => :get, :defaults => { :format => 'json' }
   match "/users" => "users#create", :via => :post, :defaults => { :format => 'json' }
