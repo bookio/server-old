@@ -1,5 +1,32 @@
 class ClientsController < ApplicationController
 
+    def self_get
+        begin
+            session = current_session
+            render :json => session.user.client
+        rescue Exception => exception
+            error exception.message, :not_found
+        end
+    end
+
+    def self_update
+        begin
+            session = current_session
+            client = session.user.client
+
+            if client.update_attributes(params[:client])
+        		render :json => client
+            else
+                render :json => client, :status => :unprocessable_entity
+            end
+                
+        rescue Exception => exception
+            error exception.message, :not_found
+        end
+    end
+
+
+
   def index
     begin
       clients = Client.all

@@ -1,7 +1,5 @@
 Booker::Application.routes.draw do
 
-  match "/clients/:client_id/users/:user_id" => "home#foo", :via => :get, :defaults => { :format => 'json' }
-  match "/bookings" => "home#foo", :via => :get, :defaults => { :format => 'json' }
   
   match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
   match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
@@ -43,6 +41,9 @@ Booker::Application.routes.draw do
   match "/icons/folder/:folder" => "icons#get_by_folder", :via => :get, :defaults => { :format => 'json' }
   match "/icons/:id" => "icons#fetch", :via => :get, :defaults => { :format => 'json' }, :as => :icon
   match "/icons/:id" => "icons#destroy", :via => :delete, :defaults => { :format => 'json' }
+
+  match "/client" => "clients#self_get", :via => :get, :defaults => { :format => 'json' }
+  match "/client" => "clients#self_update", :via => :put, :defaults => { :format => 'json' }
 
   match "/clients" => "clients#index", :via => :get, :defaults => { :format => 'json' }
   match "/clients" => "clients#create", :via => :post, :defaults => { :format => 'json' }

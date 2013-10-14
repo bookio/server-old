@@ -4,14 +4,14 @@ class Rental < ActiveRecord::Base
   validates :client_id, :presence => true
 
   has_many :reservations, :dependent => :destroy
-  validates_associated :reservations
+  #validates_associated :reservations
 
   belongs_to :client
   belongs_to :icon
   belongs_to :category
 
 
-
+=begin
   def self.available(begin_at, end_at)
       
       # find all reservations that occupies the specified period
@@ -29,5 +29,6 @@ class Rental < ActiveRecord::Base
 
 	  rentals
   end
- 
+=end
+
 end
