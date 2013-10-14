@@ -4,28 +4,12 @@ class User < ActiveRecord::Base
   attr_accessor :password
   before_save :encrypt_password
   
-  #validates_confirmation_of :password
-  #validates_presence_of :password, :on => :create
-
   validates_presence_of :username
   validates_uniqueness_of :username
 
   has_one :session, :dependent => :destroy
   
-  #has_many :reservations, :dependent => :destroy
-  #validates_associated :reservations
-  
-  #has_many :rentals, :dependent => :destroy
-  #validates_associated :rentals
-
-  #has_many :customers, :dependent => :destroy
-  #validates_associated :customers
-
-  #has_many :scenes, :dependent => :destroy
-  #validates_associated :scenes
-  
   belongs_to :client
-  
   
   def encrypt_password
     if password.present?

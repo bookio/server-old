@@ -1,5 +1,5 @@
 class Client < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :email, :address, :www, :twitter, :facebook, :phone
 
   has_many :rentals, :dependent => :destroy
   #validates_associated :rentals
