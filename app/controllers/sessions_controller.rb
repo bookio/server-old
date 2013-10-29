@@ -54,21 +54,19 @@ class SessionsController < ApplicationController
       
       user = User.find_by_username(username)
 
-      if user != nil
-        raise "This user name is currently in use."
-      end
-      
-      ActiveRecord::Base.transaction do        
-        client = Client.new
-        client.name = "Bookio"
-        client.save!
-            
-        user = client.users.new
-        user.username = username
-        user.password = password   
-        user.save!
-      end
-  
+      if user == nil
+	      ActiveRecord::Base.transaction do        
+	        client = Client.new
+	        client.name = "Bookio"
+	        client.save!
+	            
+	        user = client.users.new
+	        user.username = username
+	        user.password = password   
+	        user.save!
+	      end
+	  end
+	  
       session = Session.find_by_user_id(user.id)
         
       if session == nil
@@ -96,11 +94,15 @@ class SessionsController < ApplicationController
       end
     
       if user.guest == 0 
-        if password != ""
-          if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-            raise "Invalid password."
-          end
-        end
+        if user.password_hash != nil
+	          if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
+	            raise "Invalid password."
+	          end
+	    else
+	    	if user.password != ''
+	            raise "Invalid password."
+	    	end
+	    end
       end
 
       session = Session.find_by_user_id(user.id)
