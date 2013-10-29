@@ -61,7 +61,9 @@ class SessionsController < ApplicationController
 	        client.save!
 	            
 	        user = client.users.new
+	        user.name = username
 	        user.username = username
+	        user.email = username
 	        user.password = password   
 	        user.save!
 	      end
