@@ -91,6 +91,10 @@ class SessionsController < ApplicationController
       password = credentials[:password]
       user = User.find_by_username(username)
 
+      if password == nil
+	      password = ""
+      end
+      
       if user == nil
         raise "Invalid user name."
       end
@@ -101,7 +105,7 @@ class SessionsController < ApplicationController
 	            raise "Invalid password."
 	          end
 	    else
-	    	if user.password != ''
+	    	if password != ''
 	            raise "Invalid password."
 	    	end
 	    end
