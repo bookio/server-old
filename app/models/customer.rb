@@ -4,7 +4,7 @@ class Customer < ActiveRecord::Base
   has_many :reservations, :dependent => :destroy
   #validates_associated :reservations
 
-  validates_uniqueness_of :email, :allow_blank => true
+  validates_uniqueness_of :email, {:scope => :client_id, :allow_blank => true}
   
   belongs_to :client
   
