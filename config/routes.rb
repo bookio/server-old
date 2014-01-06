@@ -35,12 +35,12 @@ Booker::Application.routes.draw do
   match "/users/:id" => "users#destroy", :via => :delete, :defaults => { :format => 'json' }
   match "/users/:id" => "users#update", :via => :put, :defaults => { :format => 'json' }
 
-  match "/icons" => "icons#index", :via => :get, :defaults => { :format => 'json' }
-  match "/icons" => "icons#create", :via => :post, :defaults => { :format => 'json' }
-  match "/icons/all" => "icons#all", :via => :get, :defaults => { :format => 'json' }
-  match "/icons/folder/:folder" => "icons#get_by_folder", :via => :get, :defaults => { :format => 'json' }
-  match "/icons/:id" => "icons#fetch", :via => :get, :defaults => { :format => 'json' }, :as => :icon
-  match "/icons/:id" => "icons#destroy", :via => :delete, :defaults => { :format => 'json' }
+  resources :icons, defaults: { format: :json } do
+    collection do
+      get 'all'
+      get 'folder/:folder' => 'icons#get_by_folder'
+    end
+  end
 
   match "/client" => "clients#self_get", :via => :get, :defaults => { :format => 'json' }
   match "/client" => "clients#self_update", :via => :put, :defaults => { :format => 'json' }

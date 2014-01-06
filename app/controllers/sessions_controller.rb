@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class SessionsController < ApplicationController
   def new
   end
@@ -44,33 +46,13 @@ class SessionsController < ApplicationController
       error exception.message, :not_found
     end
   end
-  
+
+  # @return [void]
   def signup
     begin
-      credentials = credentials()
-      
-      username = credentials[:username]
-      password = credentials[:password]
-      
-      user = User.find_by_username(username)
-
-      if user == nil
-	      ActiveRecord::Base.transaction do        
-	        client = Client.new
-	        client.name = "Bookio"
-	        client.save!
-	            
-	        user = client.users.new
-	        user.name = username
-	        user.username = username
-	        user.email = username
-	        user.password = password   
-	        user.save!
-	      end
-	  end
-	  
+	    user = authenticate(true)
       session = Session.find_by_user_id(user.id)
-        
+
       if session == nil
           session = Session.new 
           session.user = user 
@@ -83,35 +65,28 @@ class SessionsController < ApplicationController
       error exception.message, :not_found
     end
   end
-  
+
+  # @return [void]
   def login
     begin
-      credentials = credentials()
-      username = credentials[:username]
-      password = credentials[:password]
+      creds = credentials
+      username = creds[:username]
+      password = creds[:password]
       user = User.find_by_username(username)
 
       if password == nil
-	      password = ""
+	      password = ''
       end
       
       if user == nil
-        raise "Invalid user name."
+        raise 'Invalid username.'
       end
     
-      if user.guest == 0 
-        if user.password_hash != nil
-	          if user.password_hash != BCrypt::Engine.hash_secret(password, user.password_salt)
-	            raise "Invalid password."
-	          end
-	    else
-	    	if password != ''
-	            raise "Invalid password."
-	    	end
-	    end
+      if user.guest == 0
+        raise 'Invalid password' if user.password != password
       end
 
-      session = Session.find_by_user_id(user.id)
+      session = Session.find_by_user(user)
         
       if session == nil
           session = Session.new 
@@ -126,12 +101,10 @@ class SessionsController < ApplicationController
     end
   end
 
-  
-  
+  # @return [void]
   def logout
     begin
       session = current_session
-    
       session.destroy
       head :no_content
     rescue Exception => exception

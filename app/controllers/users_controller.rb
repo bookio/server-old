@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     end
   end
 
+
   def show
     begin
       session = current_session
@@ -74,7 +75,7 @@ class UsersController < ApplicationController
       user = session.user.client.users.find(params[:id])
 	
       if user.update_attributes(params[:user])
-		render :json => user
+		    render :json => user
       else
         render :json => user.errors, :status => :unprocessable_entity
       end

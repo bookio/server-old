@@ -18,8 +18,8 @@ class IconsController < ApplicationController
       error exception.message, :not_found
     end
   end
-  
-  def fetch
+
+  def show
     begin
       icon = Icon.find(params[:id])
       render :json => icon
@@ -27,7 +27,7 @@ class IconsController < ApplicationController
       error exception.message, :not_found
     end
   end
-  
+
   def get_by_folder
     begin
       icons = Icon.where({:folder => params[:folder]})
@@ -38,34 +38,26 @@ class IconsController < ApplicationController
     end
 
   end
-  
-  
-  def all   
-	  icons = Icon.all
-	  
-      result = {}
 
-	  icons.each do |icon|
-		result[icon.id] = icon;	  	
-	  end
 
-      render :json => result
-  
+  def all
+    icons = Icon.all
+    render :json => icons.index_by(&:id)
   end
-  
-  
+
+
   def create
     begin
       icon = Icon.new(params[:icon])
-      if icon.save
+      if icon.save then
         render :json => icon, :status => :created, :location => icon
       else
-        render :json => icon.errors, :status => :unprocessable_entity 
+        render :json => icon.errors, :status => :unprocessable_entity
       end
     rescue Exception => exception
       error exception.message, :not_found
     end
 
   end
-  
+
 end
