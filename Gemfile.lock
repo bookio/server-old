@@ -108,6 +108,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   jquery-rails
   json
+  multi_json (~> 1.8.2)
   pg
   rack-cors
   rails (= 3.2.8)
