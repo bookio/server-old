@@ -1,39 +1,39 @@
 Booker::Application.routes.draw do
 
   
-  match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
-  match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
-  match "/rentals/query" => "rentals#query", :via => :get, :defaults => { :format => 'json' }
-  match "/rentals/:id" => "rentals#show", :via => :get, :defaults => { :format => 'json' }, :as => :rental
-  match "/rentals/:id" => "rentals#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/rentals/:id" => "rentals#update", :via => :put, :defaults => { :format => 'json' }
+  get "/rentals" => "rentals#index", :defaults => { :format => 'json' }
+  post "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
+  get "/rentals/query" => "rentals#query", :defaults => { :format => 'json' }
+  get "/rentals/:id" => "rentals#show", :defaults => { :format => 'json' }, :as => :rental
+  delete "/rentals/:id" => "rentals#destroy", :defaults => { :format => 'json' }
+  put "/rentals/:id" => "rentals#update", :defaults => { :format => 'json' }
 
-  match "/scenes" => "scenes#index", :via => :get, :defaults => { :format => 'json' }
-  match "/scenes" => "scenes#create", :via => :post, :defaults => { :format => 'json' }
-  match "/scenes/:id" => "scenes#show", :via => :get, :defaults => { :format => 'json' }, :as => :scene
-  match "/scenes/:id" => "scenes#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/scenes/:id" => "scenes#update", :via => :put, :defaults => { :format => 'json' }
+  get "/scenes" => "scenes#index", :defaults => { :format => 'json' }
+  post "/scenes" => "scenes#create", :via => :post, :defaults => { :format => 'json' }
+  get "/scenes/:id" => "scenes#show", :defaults => { :format => 'json' }, :as => :scene
+  delete "/scenes/:id" => "scenes#destroy", :defaults => { :format => 'json' }
+  put "/scenes/:id" => "scenes#update", :defaults => { :format => 'json' }
 
-  match "/categories" => "categories#fetch_all", :via => :get, :defaults => { :format => 'json' }
-  match "/categories" => "categories#create", :via => :post, :defaults => { :format => 'json' }
-  match "/categories/:id" => "categories#fetch", :via => :get, :defaults => { :format => 'json' }, :as => :category
-  match "/categories/:id" => "categories#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/categories/:id" => "categories#update", :via => :put, :defaults => { :format => 'json' }
+  get "/categories" => "categories#fetch_all", :defaults => { :format => 'json' }
+  post "/categories" => "categories#create", :via => :post, :defaults => { :format => 'json' }
+  get "/categories/:id" => "categories#fetch", :defaults => { :format => 'json' }, :as => :category
+  delete "/categories/:id" => "categories#destroy", :defaults => { :format => 'json' }
+  put "/categories/:id" => "categories#update", :defaults => { :format => 'json' }
 
-  match "/customers" => "customers#index", :via => :get, :defaults => { :format => 'json' }
-  match "/customers" => "customers#create", :via => :post, :defaults => { :format => 'json' }
-  match "/customers/search_email" => "customers#search_email", :via => :get, :defaults => { :format => 'json' }
-  match "/customers/search/:search_text" => "customers#search", :via => :get, :defaults => { :format => 'json' }
-  match "/customers/:id" => "customers#show", :via => :get, :defaults => { :format => 'json' }, :as => :customer
-  match "/customers/:id" => "customers#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/customers/:id" => "customers#update", :via => :put, :defaults => { :format => 'json' }
+  get "/customers" => "customers#index", :defaults => { :format => 'json' }
+  post "/customers" => "customers#create", :via => :post, :defaults => { :format => 'json' }
+  get "/customers/search_email" => "customers#search_email", :defaults => { :format => 'json' }
+  get "/customers/search/:search_text" => "customers#search", :defaults => { :format => 'json' }
+  get "/customers/:id" => "customers#show", :defaults => { :format => 'json' }, :as => :customer
+  delete "/customers/:id" => "customers#destroy", :defaults => { :format => 'json' }
+  put "/customers/:id" => "customers#update", :defaults => { :format => 'json' }
 
-  match "/users" => "users#index", :via => :get, :defaults => { :format => 'json' }
-  match "/users" => "users#create", :via => :post, :defaults => { :format => 'json' }
-  match "/users/guest" => "users#guest", :via => :get, :defaults => { :format => 'json' }
-  match "/users/:id" => "users#show", :via => :get, :defaults => { :format => 'json' }, :as => :user
-  match "/users/:id" => "users#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/users/:id" => "users#update", :via => :put, :defaults => { :format => 'json' }
+  get "/users" => "users#index", :defaults => { :format => 'json' }
+  post "/users" => "users#create", :via => :post, :defaults => { :format => 'json' }
+  get "/users/guest" => "users#guest", :defaults => { :format => 'json' }
+  get "/users/:id" => "users#show", :defaults => { :format => 'json' }, :as => :user
+  delete "/users/:id" => "users#destroy", :defaults => { :format => 'json' }
+  put "/users/:id" => "users#update", :defaults => { :format => 'json' }
 
   resources :icons, defaults: { format: :json } do
     collection do
@@ -42,36 +42,37 @@ Booker::Application.routes.draw do
     end
   end
 
-  match "/client" => "clients#self_get", :via => :get, :defaults => { :format => 'json' }
-  match "/client" => "clients#self_update", :via => :put, :defaults => { :format => 'json' }
+  get "/clients/:id" => "clients#show", :defaults => { :format => 'json' }, :as => :client
+  get "/client" => "clients#self_get", :defaults => { :format => 'json' }
+  put "/client" => "clients#self_update", :defaults => { :format => 'json' }
 
-  match "/clients" => "clients#index", :via => :get, :defaults => { :format => 'json' }
-  match "/clients" => "clients#create", :via => :post, :defaults => { :format => 'json' }
-  match "/clients/:id" => "clients#show", :via => :get, :defaults => { :format => 'json' }, :as => :client
-  match "/clients/:id" => "clients#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/clients/:id" => "clients#update", :via => :put, :defaults => { :format => 'json' }
+  get "/clients" => "clients#index", :defaults => { :format => 'json' }
+  post "/clients" => "clients#create", :defaults => { :format => 'json' }
 
-  match "/sessions/:id" => "sessions#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/sessions" => "sessions#index", :via => :get, :defaults => { :format => 'json' }
-  match "/sessions/:id" => "sessions#show", :via => :get, :defaults => { :format => 'json' }, :as => :session
+  delete "/clients/:id" => "clients#destroy", :defaults => { :format => 'json' }
+  put "/clients/:id" => "clients#update", :defaults => { :format => 'json' }
+
+  delete "/sessions/:id" => "sessions#destroy", :defaults => { :format => 'json' }
+  get "/sessions" => "sessions#index", :defaults => { :format => 'json' }
+  get "/sessions/:id" => "sessions#show", :defaults => { :format => 'json' }, :as => :session
   
-  match "/signup" => "sessions#signup", :via => :get, :defaults => { :format => 'json' }
-  match "/login" => "sessions#login", :via => :get, :defaults => { :format => 'json' }
-  match "/logout" => "sessions#logout", :via => :get, :defaults => { :format => 'json' }
-  match "/verify" => "sessions#verify", :via => :get, :defaults => { :format => 'json' }
+  get "/signup" => "sessions#signup", :defaults => { :format => 'json' }
+  get "/login" => "sessions#login", :defaults => { :format => 'json' }
+  get "/logout" => "sessions#logout", :defaults => { :format => 'json' }
+  get "/verify" => "sessions#verify", :defaults => { :format => 'json' }
 
-  match "/reservations" => "reservations#index", :via => :get, :defaults => { :format => 'json' }
-  match "/reservations" => "reservations#create", :via => :post, :defaults => { :format => 'json' }
-  match "/reservations/foo" => "reservations#foo", :via => :get, :defaults => { :format => 'json' }
-  match "/reservations/:id" => "reservations#show", :via => :get, :defaults => { :format => 'json' }, :as => :reservation
-  match "/reservations/:id" => "reservations#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/reservations/:id" => "reservations#update", :via => :put, :defaults => { :format => 'json' }
+  get "/reservations" => "reservations#index", :defaults => { :format => 'json' }
+  post "/reservations" => "reservations#create", :via => :post, :defaults => { :format => 'json' }
+  get "/reservations/foo" => "reservations#foo", :defaults => { :format => 'json' }
+  get "/reservations/:id" => "reservations#show", :defaults => { :format => 'json' }, :as => :reservation
+  delete "/reservations/:id" => "reservations#destroy", :defaults => { :format => 'json' }
+  put "/reservations/:id" => "reservations#update", :defaults => { :format => 'json' }
 
-  match "/settings" => "settings#index", :via => :get, :defaults => { :format => 'json' }
-  match "/settings/:section/:name" => "settings#put", :via => :put, :defaults => { :format => 'json' }
-  match "/settings/:section/:name" => "settings#get", :via => :get, :defaults => { :format => 'json' }
-  match "/settings/:section/:name" => "settings#destroy", :via => :delete, :defaults => { :format => 'json' }
-  match "/settings/:section" => "settings#destroy_section", :via => :delete, :defaults => { :format => 'json' }
+  get "/settings" => "settings#index", :defaults => { :format => 'json' }
+  put "/settings/:section/:name" => "settings#put", :defaults => { :format => 'json' }
+  get "/settings/:section/:name" => "settings#get", :defaults => { :format => 'json' }
+  delete "/settings/:section/:name" => "settings#destroy", :defaults => { :format => 'json' }
+  delete "/settings/:section" => "settings#destroy_section", :defaults => { :format => 'json' }
 
   #resources :users, :has_many => :reservations
   #resources :rentals, :has_many => :reservations

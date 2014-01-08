@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
   def get
   	begin
       session = current_session
-      setting = session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).first
+      setting = session.user.client.settings.where('section = ? and name = ?', params[:section], params[:name]).first
       
       if setting == nil 
         render :json => nil 
@@ -34,37 +34,31 @@ class SettingsController < ApplicationController
       session = current_session
 
       body = request.body.read
-      
-      if body != ""
-        value = ActiveSupport::JSON.decode(body) 
 
-        setting = session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).first
-    
-        if setting == nil 
+      if body.blank?
+        session.user.client.settings.where('section = ? and name = ?', params[:section], params[:name]).destroy_all
+        head :no_content
+      else
+        value = ActiveSupport::JSON.decode(body)
+
+        setting = session.user.client.settings.where('section = ? and name = ?', params[:section], params[:name]).first
+
+        if setting.nil?
           setting = session.user.client.settings.new(params[:setting])
-          setting.section = params[:section];
-          setting.name = params[:name];
+          setting.section = params[:section]
+          setting.name = params[:name]
         end
 
-        if setting.value != nil 
-            value = setting.value.merge(value)
-        end
+        value = setting.value.merge(value) unless setting.value.nil?
 
         # Remove null values
-        value.delete_if { |k, v| v == nil }          
-        
+        value.delete_if { |k, v| v == nil }
         setting.value = value
-        
-        if setting.save
-          render :json => setting.value, :status => :created
-        else
-          render :json => setting.errors, :status => :unprocessable_entity
-        end
-        
-      else
 
-          session.user.client.settings.where("section = ? and name = ?", params[:section], params[:name]).destroy_all
-          head :no_content
+        setting.save ?
+            render :json => setting.value, :status => :created :
+            render :json => setting.errors, :status => :unprocessable_entity
+
       end
  
     rescue Exception => exception

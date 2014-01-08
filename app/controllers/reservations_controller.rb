@@ -9,9 +9,6 @@ class ReservationsController < ApplicationController
     end
   end
 
-
-  
-
   def bookings
     begin
       session = current_session
@@ -21,17 +18,15 @@ class ReservationsController < ApplicationController
       customers = {}
       rentals = {}
       
-	  reservations.each do |reservation|
-	    if !rentals.has_key?(reservation.rental_id)
-          rentals[reservation.rental_id] = []	  	
-		end
-		reservations_for_rental = rentals[reservation.rental_id]
-		reservations_for_rental.push(reservation)
-		
-		customers[reservation.customer_id] = reservation.customer
-	  end
+      reservations.each { |reservation|
+        rentals[reservation.rental_id] = [] unless rentals.has_key? reservation.rental_id
+        reservations_for_rental = rentals[reservation.rental_id]
+        reservations_for_rental.push(reservation)
+
+        customers[reservation.customer_id] = reservation.customer
+      }
 	  
-	  json = {:customers => customers, "JJJ" => rentals}
+	    json = {:customers => customers, 'JJJ' => rentals}
       
       render :json => json
     rescue Exception => exception
@@ -42,16 +37,14 @@ class ReservationsController < ApplicationController
 
   def foo
     begin
-    
       session = current_session
-
-	  reservations = session.user.client.reservations
+	    reservations = session.user.client.reservations
 	  
       result = {}
 
-	  reservations.each do |reservation|
-		result[reservation.id] = reservation;	  	
-	  end
+  	  reservations.each { |reservation|
+        result[reservation.id] = reservation;
+      }
 
       render :json => result
 	    
