@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131112101237) do
+ActiveRecord::Schema.define(:version => 20131114171341) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.string   "description", :default => "",   :null => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-    t.string   "image",       :default => "",   :null => false
+    t.text     "image",       :default => "",   :null => false
     t.boolean  "available",   :default => true, :null => false
     t.integer  "client_id"
   end
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20131112101237) do
     t.string   "name"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
-    t.string   "logo",       :default => "", :null => false
+    t.text     "logo",       :default => "", :null => false
     t.string   "email",      :default => "", :null => false
     t.string   "twitter",    :default => "", :null => false
     t.string   "facebook",   :default => "", :null => false
