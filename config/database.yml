@@ -1,13 +1,10 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#"development:
-#  adapter: sqlite3
-#  database: db/development.sqlite3
-#  pool: 5
-#  timeout: 5000
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: booker_test
+  pool: 5
+  username: booker
+  password: potatismos
 
 development:
   adapter: postgresql
@@ -26,14 +23,6 @@ development:
 #  pool: 5
 #  username: postgres
 #  password: potatismos
-
-test:
-  adapter: postgresql
-  encoding: unicode
-  database: booker
-  pool: 5
-  username: postgres
-  password: potatismos
 
 production:
   adapter: postgresql
