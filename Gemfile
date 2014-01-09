@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
-ruby "1.9.3"
-gem 'rails', '3.2.8'
+ruby '2.0.0'
+gem 'rails', '3.2.16'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'json'
 gem 'pg'
-gem "bcrypt-ruby", :require => "bcrypt"
+gem "bcrypt-ruby", '~> 3.1.2', :require => "bcrypt"
 gem 'rack-cors', :require => 'rack/cors'
 gem "multi_json", "~> 1.8.2"
 
@@ -24,6 +24,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'seed-fu', '~> 2.3.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
