@@ -11,6 +11,9 @@ gem "bcrypt-ruby", '~> 3.1.2', :require => "bcrypt"
 gem 'rack-cors', :require => 'rack/cors'
 gem "multi_json", "~> 1.8.2"
 
+gem 'seed-fu', '~> 2.3.0'
+gem 'jquery-rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -19,12 +22,33 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-gem 'seed-fu', '~> 2.3.0'
+group :development, :test do
+  gem 'capybara'
+  gem 'rspec-rails'
+end
+
+group :test do
+  gem "factory_girl_rails"
+end
+
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
+
+# Use unicorn as the app server
+# gem 'unicorn'
+
+# Deploy with Capistrano
+# gem 'capistrano'
+
+# To use debugger
+# gem 'ruby-debug'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
