@@ -12,11 +12,6 @@ describe User do
     expect(user).to be_invalid
   end
 
-  it 'is invalid without username' do
-    user.username = nil
-    expect(user).to be_invalid
-  end
-
   it 'has password salt and password hash after encryption' do
     expect(user.password_salt).to_not be_present
     user.encrypt_password()
