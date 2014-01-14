@@ -1,6 +1,7 @@
 class IconsController < ApplicationController
 
-  def index
+  # Return all icons
+  def icons_all
     begin
       icons = Icon.all
       render :json => icons
@@ -9,38 +10,24 @@ class IconsController < ApplicationController
     end
   end
 
-  def destroy
+  # Return all tags as an array
+  def icons_tags
     begin
-      icon = Icon.find(params[:id])
-      icon.destroy
-      head :no_content
+      icons = Icon.select("DISTINCT tag").where("tag <> ''").order('tag')
+      result = []
+      
+	  icons.each do |icon|
+	    result.push(icon.tag)
+	  end
+      
+      render :json => result
     rescue Exception => exception
       error exception.message, :not_found
     end
   end
   
-  def fetch
-    begin
-      icon = Icon.find(params[:id])
-      render :json => icon
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-  end
-  
-  def get_by_folder
-    begin
-      icons = Icon.where({:folder => params[:folder]})
-      #"type ILIKE ?", "%#{params[:type]}%")
-      render :json => icons
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-
-  end
-  
-  
-  def all   
+  # Return all icons as a hash
+  def icons_hash   
 	  icons = Icon.all
 	  
       result = {}
@@ -54,18 +41,5 @@ class IconsController < ApplicationController
   end
   
   
-  def create
-    begin
-      icon = Icon.new(params[:icon])
-      if icon.save
-        render :json => icon, :status => :created, :location => icon
-      else
-        render :json => icon.errors, :status => :unprocessable_entity 
-      end
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-
-  end
   
 end
