@@ -131,7 +131,7 @@ icons = [[1,'','0001.png'],
          [131,'Activity','0131.png'],
          [132,'Resource','0132.png'],
          [133,'Accommodation','0133.png'],
-         [133,'Activity','0134.png']
+         [134,'Activity','0134.png']
 ]
 
 icons.each do |icon|
