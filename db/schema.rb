@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140225101634) do
+ActiveRecord::Schema.define(:version => 20140225131335) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(:version => 20140225101634) do
     t.integer  "client_id"
     t.integer  "available",          :default => 1,  :null => false
     t.integer  "limit_availability", :default => 0,  :null => false
-    t.datetime "limit_from"
-    t.datetime "limit_to"
+    t.time     "limit_from"
+    t.time     "limit_to"
   end
 
   create_table "clients", :force => true do |t|
