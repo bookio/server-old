@@ -1,10 +1,11 @@
 class IconsController < ApplicationController
 
+
+  
   # Return all icons
   def icons_all
     begin
-      icons = Icon.all
-      render :json => icons
+      output Icon.all      
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -20,24 +21,10 @@ class IconsController < ApplicationController
 	    result.push(icon.tag)
 	  end
       
-      render :json => result
+      render :json => output(result)
     rescue Exception => exception
       error exception.message, :not_found
     end
-  end
-  
-  # Return all icons as a hash
-  def icons_hash   
-	  icons = Icon.all
-	  
-      result = {}
-
-	  icons.each do |icon|
-		result[icon.id] = icon;	  	
-	  end
-
-      render :json => result
-  
   end
   
   

@@ -4,7 +4,7 @@ class CustomersController < ApplicationController
     begin
       session = current_session
       customers = session.user.client.customers
-      render :json => customers
+      output customers
     
     rescue Exception => exception
       error exception.message, :not_found
@@ -16,7 +16,7 @@ class CustomersController < ApplicationController
       session = current_session
 
       customer = session.user.client.customers.find(params[:id])
-      render :json => customer
+      output customer
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -29,7 +29,7 @@ class CustomersController < ApplicationController
       session = current_session
       
       customers = session.user.client.customers.where("name ILIKE ? OR email ILIKE ? OR phone ILIKE ?", "%#{params[:search_text]}%", "%#{params[:search_text]}%", "%#{params[:search_text]}%")
-      render :json => customers
+      output customers
 
     rescue Exception => exception
       error exception.message, :not_found
@@ -42,7 +42,7 @@ class CustomersController < ApplicationController
       email = params[:email];
       puts email
       customers = session.user.client.customers.where("email = ?", email)
-      render :json => customers
+      output customers
 
     rescue Exception => exception
       error exception.message, :not_found
@@ -56,7 +56,7 @@ class CustomersController < ApplicationController
       customer = session.user.client.customers.new(params[:customer])
       
       if customer.save
-        render :json => customer, :status => :created
+        output customer
       else
         render :json => customer.errors, :status => :unprocessable_entity
       end
@@ -72,7 +72,7 @@ class CustomersController < ApplicationController
       customer = session.user.client.customers.find(params[:id])
 	
       if customer.update_attributes(params[:customer])
-		render :json => customer
+		output customer
       else
         render :json => customer.errors, :status => :unprocessable_entity
       end

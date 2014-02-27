@@ -4,9 +4,7 @@ class RentalsController < ApplicationController
   def index
     begin
       session = current_session
-      
-      rentals = session.user.client.rentals.all
-      render :json => rentals
+      output session.user.client.rentals.all
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -39,7 +37,7 @@ class RentalsController < ApplicationController
     	  rentals = rentals.where("category_id = ?", category_id)
 	  end
 
-      render :json => rentals.all
+      output rentals.all
       
     rescue Exception => exception
     	error exception.message, :not_found
@@ -47,24 +45,12 @@ class RentalsController < ApplicationController
     
   end
   
-  def book
-  	begin
-      session = current_session
-      render :json => session
-    rescue Exception => exception
-      error exception.message, :not_found
-    end
-  end
-  
   
   # Returns an array containing all existing categories
   
   def show
   	begin
-      session = current_session
-
-      rental = session.user.client.rentals.find(params[:id])
-      render :json => rental
+      output current_session.user.client.rentals.find(params[:id])
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -88,7 +74,7 @@ class RentalsController < ApplicationController
       end
       
       if rental.save
-        render :json => rental, :status => :created, :location => rental
+        output rental
       else
         render :json => rental.errors, :status => :unprocessable_entity
       end
@@ -104,7 +90,7 @@ class RentalsController < ApplicationController
       rental = session.user.client.rentals.find(params[:id])
 	
       if rental.update_attributes(params[:rental])
-  		render :json => rental
+  		output rental
       else
         render :json => rental.errors, :status => :unprocessable_entity
       end

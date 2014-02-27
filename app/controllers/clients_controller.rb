@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
     def self_get
         begin
             session = current_session
-            render :json => session.user.client
+            output session.user.client
         rescue Exception => exception
             error exception.message, :not_found
         end
@@ -15,7 +15,7 @@ class ClientsController < ApplicationController
             client = session.user.client
 
             if client.update_attributes(params[:client])
-        		render :json => client
+        		output client
             else
                 render :json => client, :status => :unprocessable_entity
             end
@@ -30,7 +30,7 @@ class ClientsController < ApplicationController
   def index
     begin
       clients = Client.all
-      render :json => clients
+      output clients
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -39,7 +39,7 @@ class ClientsController < ApplicationController
   def show
     begin
       client = Client.find(params[:id])
-      render :json => client
+      output client
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -60,7 +60,7 @@ class ClientsController < ApplicationController
       client = Client.find(params[:id])
 	
       if client.update_attributes(params[:client])
-  		render :json => client
+  		output client
       else
         render :json => client, :status => :unprocessable_entity
       end

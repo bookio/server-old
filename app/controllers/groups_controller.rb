@@ -2,8 +2,7 @@ class GroupsController < ApplicationController
 
   def index
     begin
-      @groups = Group.all
-      render :json => @groups
+      output Group.all
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -11,8 +10,8 @@ class GroupsController < ApplicationController
 
   def show
     begin
-      @groups = Group.find(params[:id])
-      render :json => @groups
+      output Group.find(params[:id])
+
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -33,7 +32,7 @@ class GroupsController < ApplicationController
       group = Group.find(params[:id])
 	
       if group.update_attributes(params[:group])
-  		render :json => group
+  		output group
       else
         render :json => group, :status => :unprocessable_entity
       end
@@ -47,7 +46,7 @@ class GroupsController < ApplicationController
     begin
       group = Group.new(params[:group])
       if group.save
-        render :json => group, :status => :created, :location => group
+        output group
       else
         render :json => group.errors, :status => :unprocessable_entity 
       end

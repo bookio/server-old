@@ -4,8 +4,7 @@ class SessionsController < ApplicationController
 
   def index
     begin
-      sessions = Session.all
-      render :json => sessions
+      output Session.all
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -13,8 +12,8 @@ class SessionsController < ApplicationController
 
   def show
     begin
-      session = Session.find(params[:id])
-      render :json => session
+      output Session.find(params[:id])
+
     rescue Exception => exception
       error exception.message, :not_found
     end
@@ -39,7 +38,7 @@ class SessionsController < ApplicationController
         user = {}
       end
       
-      render :json => user
+      output user
     rescue Exception => exception
       error exception.message, :not_found
     end

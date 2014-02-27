@@ -12,6 +12,21 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def output(array)
+	  if params[:hash] != nil 
+		  hash = {}
+		  hashkey = params[:hash] 
+		  
+		  array.each do |item|
+			key = item[hashkey]
+			hash[key] = item;	  	
+		  end
+	  
+		  render :json => hash
+	  else
+	        render :json => array
+	  end
+  end
 
 
   def current_session
