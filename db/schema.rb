@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140225131335) do
+ActiveRecord::Schema.define(:version => 20140304130226) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20140225131335) do
     t.integer  "category_id"
     t.integer  "available",   :default => 1, :null => false
     t.integer  "client_id"
+    t.binary   "data"
   end
 
   create_table "reservations", :force => true do |t|
