@@ -2,7 +2,7 @@ class Rental < ActiveRecord::Base
   attr_accessible :description, :name, :icon_id, :category_id, :depth, :available, :client_id, :data
   
   validates :client_id, :presence => true
-  serialize :foo
+  serialize :data
 
   has_many :reservations, :dependent => :destroy
 
