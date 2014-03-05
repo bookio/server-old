@@ -128,7 +128,11 @@ icons = [[0,'','0000.png'],
          [130,'Activity','0130.png'],
          [131,'Activity','0131.png'],
          [132,'Resource','0132.png'],
-         [133,'Accommodation','0133.png']
+         [133,'Accommodation','0133.png'],
+         [134,'Activity','0134.png'],
+         [135,'Accommodation','0135.png'],
+         [136,'Transport','0136.png']
+         
 ]
 
 Icon.delete_all
