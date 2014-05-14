@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 	  
 		  render :json => hash
 	  else
-	        render :json => array
+	      render :json => array
 	  end
   end
 

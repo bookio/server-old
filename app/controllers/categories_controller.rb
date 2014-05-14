@@ -25,14 +25,14 @@ class CategoriesController < ApplicationController
   def create
     begin
       session = current_session
-      
+
       category = session.user.client.categories.new(params[:category])
-      
       if category.save
         output category
       else
-        render :json => category.errors, :status => :unprocessable_entity
+	    render :json => category.errors, :status => :unprocessable_entity
       end
+
     rescue Exception => exception
       error exception.message, :not_found
     end
