@@ -1,6 +1,12 @@
 Booker::Application.routes.draw do
 
   
+  match "/rentals/:rental_id/options" => "options#create", :via => :post, :defaults => { :format => 'json' }
+  match "/rentals/:rental_id/options" => "options#fetch", :via => :get, :defaults => { :format => 'json' }
+  match "/rentals/:rental_id/options/:id" => "options#update", :via => :put, :defaults => { :format => 'json' }
+  match "/rentals/:rental_id/options/:id" => "options#destroy", :via => :delete, :defaults => { :format => 'json' }
+  match "/rentals/:rental_id/options/:id" => "options#get", :via => :get, :defaults => { :format => 'json' }
+
   match "/rentals" => "rentals#index", :via => :get, :defaults => { :format => 'json' }
   match "/rentals" => "rentals#create", :via => :post, :defaults => { :format => 'json' }
   match "/rentals/query" => "rentals#query", :via => :get, :defaults => { :format => 'json' }
